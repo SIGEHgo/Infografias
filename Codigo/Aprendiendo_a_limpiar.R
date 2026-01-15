@@ -19,3 +19,8 @@ datos2 = datos2[-c(1:2),]
 
 
 dplyr::left_join()
+datos3= datos |>  dplyr::filter(is.na(...2))
+datos4=datos |> dplyr::filter(!is.na(...2)) 
+
+
+
