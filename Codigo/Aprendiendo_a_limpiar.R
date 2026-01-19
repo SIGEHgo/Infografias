@@ -20,7 +20,29 @@ datos2 = datos2[-c(1:2),]
 
 dplyr::left_join()
 datos3= datos |>  dplyr::filter(is.na(...2))
-datos4=datos |> dplyr::filter(!is.na(...2)) 
+
+
+
+######################################3todo empieza desde datos 4 
+datos4=datos |> 
+    dplyr::filter(!is.na(...2))
+names(datos4)=datos[5,]
+datos4
+colnames(datos4)[c(4,5)]=c("hombres","mujeres")
+##se borra la  fila 1 
+datos5=datos4[-1,]
+
+suma=sum(datos4$Población total'[2:],na.r,=TRUE)
+
+
+
+
+  
+
+    
+
+
+
 
 
 
