@@ -143,3 +143,77 @@ datos131=datos131 |>
 
 datos13= datos13 |> 
     dplyr::left_join(y=datos131,by=c(CVEGEO==CVEGEO))
+
+
+####ya hacemos los calculos correspondientes
+
+
+
+datos13=datos13 |> 
+  dplyr::mutate(
+    dplyr::across(.cols = c(`usuarios de los servicio de salud`,`Poblacion Total`),.fns = ~.x |> as.numeric())
+  )
+    
+
+datos13=datos13 |> 
+    dplyr::mutate(
+      `Usuarios de servicio de salud%`= (`usuarios de los servicio de salud`/(`Poblacion Total`))*100
+    )
+
+datos13=datos13 |> 
+   dplyr::relocate(`Usuarios de servicio de salud%`,.after = `usuarios de los servicio de salud`)
+datos13=datos13 |> 
+  dplyr::mutate(
+  CVEGEO=CVEGEO |> as.character()  
+  )
+###ahora abrimos las siguientes bases para despues juntarlas 
+
+
+datos132=readxl::read_excel("../../bases de datos practicas/cpv2020_b_hgo_06_discapacidad.xlsx",sheet=5)
+###vamos a quitar todos los na de las columnas 
+datos132=datos132 |> 
+     dplyr::filter(!is.na(...2))
+
+datos132=datos132[-c(2:12),]
+names(datos132)=datos132[1,]
+
+datos132=datos132[-1,]
+
+
+datos132=datos132[,-c(7:21)]
+datos132= datos132 |> 
+  dplyr::filter(Sexo == "Total", `Condición de afiliación a servicios de salud` == "Total")
+
+
+datos132=datos132 |> 
+    dplyr::select(Municipio,`Discapacidad o limitación por tipo de actividad cotidiana que realiza y población con algún problema o condición mental`)
+###ahora separo una columna para poder etener el CVEGEO APARTE
+
+datos132 = datos132 |>
+  dplyr::mutate(
+    CVEGEO = stringr::str_extract(Municipio, "^\\d+"),
+    municipio = stringr::str_remove(Municipio, "^\\d+\\s*")
+  )
+
+
+datos132 = datos132 |> 
+    dplyr::relocate(CVEGEO,.before = Municipio) 
+
+datos132=datos132 |> 
+    dplyr::select(CVEGEO,`Discapacidad o limitación por tipo de actividad cotidiana que realiza y población con algún problema o condición mental`)
+
+datos132 =datos132 |>
+  dplyr::mutate(
+    CVEGEO = paste0("13", CVEGEO)
+  )
+
+###ahora la fusionamos con la base 13
+
+datos13= datos13 |> 
+  dplyr::left_join(y=datos132,by="CVEGEO")
+########################como ya se pegaron ahora borramos las que no queremos 
+
+datos13=datos13 |> 
+  dplyr::select(-`Poblacion Total`,-`Discapacidad o limitación por tipo de actividad cotidiana que realiza y población con algún problema o condición mental.x`)
+
+
