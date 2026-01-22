@@ -1,0 +1,12 @@
+---
+title: "Infografias"
+author: "Eduardo Alanis Garcia"
+format: html
+editor: visual
+---
+
+## Descripcion general
+
+Mi mala organizacion del pasado y escribir codigo del todo no eficiente para todas las ocaciones me ha generado que llegue a este momento, que tengo que hacer una documentacion clara y funcionable para poder actualizar las infografias de forma rapida y efectiva
+
+## Nivel Municipal
