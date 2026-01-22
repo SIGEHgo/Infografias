@@ -5,8 +5,194 @@ format: html
 editor: visual
 ---
 
-## Descripcion general
+## Descripción general
 
-Mi mala organizacion del pasado y escribir codigo del todo no eficiente para todas las ocaciones me ha generado que llegue a este momento, que tengo que hacer una documentacion clara y funcionable para poder actualizar las infografias de forma rapida y efectiva
+Mi mala organización en el pasado y el uso de código poco eficiente me llevaron a esta situación. Ahora necesito crear una documentación clara y funcional que me permita actualizar las infografías de manera rápida y efectiva.
+
+Las infografías que se actualizarán son las siguientes:
+
+-   Municipal
+
+-   Regional
+
+-   Metropolitana
+
+-   Estatal
+
+Las infografias se ven algo asi:
+
+![](Img/Infografia_Tizayuca.png){fig-align="center"}
+
+![](Img/Infografia_Region_Tula.png){fig-align="center"}
 
 ## Nivel Municipal
+
+La base ya está estructurada de la siguiente manera, con todas las categorías.
+
+![](Img/Estructura_base.png){fig-align="center"}
+
+### Obtención de variables de porcentajes
+
+#### Respecto a "Poblacion Total"
+
+Se generan:
+
+-   Población Urbana%
+
+-   Población Rural%
+
+-   Población Mujeres%
+
+-   Población Hombres%
+
+-   Población infantil (0-14 años)%
+
+-   Población juvenil (15-29 años)%
+
+-   Población (18 años y más)%
+
+-   Población adulta (30-59 años)%
+
+-   Población adulta mayor (60 y más años)%
+
+-   Usuarios de los Servicios de Salud%
+
+-   Carencia por Acceso a los Servicios de Salud%
+
+-   Carencia por Acceso a la Seguridad Social%
+
+-   Carencia por Calidad y Espacios de la Vivienda%
+
+-   Carencia por Acceso a los Servicios Básicos en la Vivienda%
+
+-   Carencia por Acceso a la Alimentación%
+
+-   Pobreza%
+
+-   Pobreza extrema%
+
+-   Vulnerables por Ingreso%
+
+-   Porcentaje de la población analfabeta Se considera indígena (porcentaje)
+
+
+```{r eval=FALSE}
+datos = datos |>
+  dplyr::mutate(
+    dplyr::across(
+      .cols = `Población Mujeres`:`Población adulta mayor (60 y más años)`,
+      .fns = ~ (.x / `Población total`) * 100,
+      .names = "{.col}%",
+    )
+  )
+
+### Queda pendiente esta ultima linea
+datos = datos |> 
+  dplyr::relocate(sort(names(datos)))
+```
+
+#### Respecto a "Viviendas Particulares Habitadas"
+
+Se generan:
+
+-   Deficit de Agua Potable%
+
+-   Deficit de Drenaje%
+
+-   Deficit de Energía Eléctrica%
+
+-   Viviendas con computadora%
+
+-   Viviendas con Internet%
+
+-   Viviendas con Servicios de TV de Paga%
+
+-   Viviendas con Celular%
+
+-   Viviendas con Telefonía Fija%
+
+-   Viviendas con TV Plana%
+
+```{r eval=FALSE}
+### Copie el codigo de arriba pero es la misma idea
+datos = datos |>
+  dplyr::mutate(
+    dplyr::across(
+      .cols = `Población Mujeres`:`Población adulta mayor (60 y más años)`,
+      .fns = ~ (.x / `Población total`) * 100,
+      .names = "{.col}%",
+    )
+  )
+
+### Queda pendiente esta ultima linea
+datos = datos |> 
+  dplyr::relocate(sort(names(datos)))
+```
+
+#### Respecto a "Población Económicamente Activa PEA"
+
+Se generan:
+
+-   Población Ocupada%
+
+-   Población Desocupada%
+
+```{r eval=FALSE}
+### Copie el codigo de arriba pero es la misma idea
+datos = datos |>
+  dplyr::mutate(
+    dplyr::across(
+      .cols = `Población Mujeres`:`Población adulta mayor (60 y más años)`,
+      .fns = ~ (.x / `Población total`) * 100,
+      .names = "{.col}%",
+    )
+  )
+
+### Queda pendiente esta ultima linea
+datos = datos |> 
+  dplyr::relocate(sort(names(datos)))
+```
+
+
+#### Respecto a "No. De Trabajadores"
+
+Se generan:
+
+-   Trabajadores en el Sector Primario%
+
+-   Trabajadores en el Sector Secundario%
+
+-   Trabajadores en el Sector Secundario%
+
+-   Trabajadores en el Comercio (Sector Terciario)%
+
+-   Trabajadores en Servicios (Sector Terciario)%
+
+```{r eval=FALSE}
+### Copie el codigo de arriba pero es la misma idea
+datos = datos |>
+  dplyr::mutate(
+    dplyr::across(
+      .cols = `Población Mujeres`:`Población adulta mayor (60 y más años)`,
+      .fns = ~ (.x / `Población total`) * 100,
+      .names = "{.col}%",
+    )
+  )
+
+### Queda pendiente esta ultima linea
+datos = datos |> 
+  dplyr::relocate(sort(names(datos)))
+```
+
+### Obtención de variables de promedio
+
+Se generan:
+
+-   Grado Promedio de Escolaridad
+
+-   Índice de marginación
+
+
+
+
+

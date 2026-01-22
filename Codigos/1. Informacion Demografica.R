@@ -36,4 +36,12 @@ datos = datos |>
   )
 
 
+datos = datos |> 
+  dplyr::select(
+    -c(`Población total%`, `Población Mujeres%`, `Población Hombres%`, 
+    `Población infantil (0-14 años)%`, `Población juvenil (15-29 años)%`,
+    `Población (18 años y más)%`, `Población adulta (30-59 años)%`, 
+    `Población adulta mayor (60 y más años)%`)
+  )
+
 datos |> openxlsx::write.xlsx("Output/1_Informacion_Demografica.xlsx")
