@@ -44,4 +44,4 @@ datos = datos |>
     `Población adulta mayor (60 y más años)%`)
   )
 
-datos |> openxlsx::write.xlsx("Output/1_Informacion_Demografica.xlsx")
+datos |> openxlsx::write.xlsx("Output/Drive/1. Informacion_Demografica.xlsx")

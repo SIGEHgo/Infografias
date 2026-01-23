@@ -75,7 +75,6 @@ Se generan:
 
 -   Porcentaje de la población analfabeta Se considera indígena (porcentaje)
 
-
 ```{r eval=FALSE}
 datos = datos |>
   dplyr::mutate(
@@ -153,7 +152,6 @@ datos = datos |>
   dplyr::relocate(sort(names(datos)))
 ```
 
-
 #### Respecto a "No. De Trabajadores"
 
 Se generan:
@@ -191,8 +189,3 @@ Se generan:
 -   Grado Promedio de Escolaridad
 
 -   Índice de marginación
-
-
-
-
-

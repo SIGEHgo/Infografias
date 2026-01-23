@@ -1,4 +1,4 @@
-datos = "../../../../2025_dic2025__1_ (1).xlsx" |>  readxl::read_excel()
+datos = "Inputs/Drive/9. Incidencia Delictiva/Incidencia Delictiva.xlsx" |>  readxl::read_excel()
 
 
 datos = datos |> 
@@ -79,4 +79,4 @@ datos = datos |>
 
 
 
-datos |>  openxlsx::write.xlsx("Output/9. Incidencia delictiva.xlsx")
+datos |>  openxlsx::write.xlsx("Output/Drive/9. Incidencia delictiva.xlsx")
