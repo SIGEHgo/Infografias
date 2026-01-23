@@ -16,9 +16,14 @@ plantas = plantas |>
   dplyr::rename(
     Municipio = `Plantas de tratamiento en operación, capacidad instalada y volumen tratado de aguas residuales por municipio y tipo de servicio según nivel de tratamiento`,
     `Plantas de tratamiento en operación, capacidad instalada y volumen tratado de aguas residuales por municipio y tipo de servicio según nivel de tratamiento`= ...5,
-    `Volumen tratado   (Millones de metros cúbicos) Total` = ...13
+    `Volumen tratado   (Millones de metros cúbicos)` = ...13
   ) |> 
   dplyr::mutate(
     Municipio = Municipio |> stringr::str_squish()
   )
+
+
+names(plantas) = names(plantas) |>  stringr::str_squish()
+
+plantas |>  openxlsx::write.xlsx("Output/Drive/10. Tratamiento de Aguas Residuales.xlsx")
 
