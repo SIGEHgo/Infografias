@@ -287,11 +287,20 @@ datos15=datos15 |>
 #################preguntar a lalo por que el de el no funciono
 
 
+
+
+
+
+
+
+datos15 =  datos15 |> 
+  dplyr::slice(600:683)
+
+
 datos15=datos15 |> 
   dplyr::mutate(
     dplyr::across(.cols = c(`Ingresos por remesas enero-marzo 2025`,`Ingreso por remesas Abril-Junio 2025`,`Ingreso por remesas Julio-Septiembre 2025`),.fns = ~.x |> as.numeric())
   )
-
 
 datos15=datos15 |> 
   dplyr::mutate(
@@ -302,7 +311,122 @@ datos15=datos15 |>
   dplyr::select(`Ingresos por remesas distribuido por municipio`,`Ingresos por remesas Enero-Septiembre(2025)`)
 
 
+####exporto las bases de datos que ya tengo
+writexl::write_xlsx(datos14, "Población economicamente activa.xlsx")
+getwd()
+
+writexl::write_xlsx(datos15,"Ingresos por remesas.xlsx")
 
 
+
+
+####################abrimos la base de bibliotecas
+
+datos16=readxl::read_excel("../../bases de datos practicas/data-2026-01-23.xlsx")
+
+datos16=datos16 |> 
+  dplyr::rename(`Nombre de bibliotecas`=rnbp_nombre,`ID DE ESTADO`=estado_id,)
+  
+
+datos16 <- datos16 |> 
+  dplyr::group_by(nom_mun) |> 
+  dplyr::summarise(
+    `Numero de Bibliotecas Públicas` = dplyr::n(),
+    `Nombre de Bibliotecas` = paste(`Nombre de bibliotecas`, collapse = ", "),
+    .groups = "drop"
+  )
+
+datos16=datos16 |> 
+  dplyr::rename(`Municipio`=nom_mun)
+
+writexl::write_xlsx(datos16,"Bibliotecas Públicas.xlsx")
+
+####ABRIMOS PARA BASE DE DATOS DE UNIDADES DEPORTIVAS
+datos17=readxl::read_excel("../../unidades deportivas 2023.xlsx")
+
+datos17=datos17 |> 
+    dplyr::filter(!is.na(`Cuadro 7.8`))
+
+
+datos17=datos17 |> 
+  dplyr::select(`Centros y unidades deportivas registradas en el Instituto Hidalguense del Deporte por municipio`,`Cuadro 7.8`) 
+
+datos17=datos17 |> 
+  dplyr::slice(-1)
+datos17=datos17 |> 
+  dplyr::rename(`Centro y unidades deportivas`=`Cuadro 7.8`)
+
+writexl::write_xlsx(datos17,"unidades deportivas.xlsx ")
+
+
+#################abrimos sunidades economicas 
+datos18=readxl::read_excel("../../bases de datos practicas/rd09_HGO01 (1).xls")
+datos18=datos18 |> 
+    dplyr::filter(!is.na(...1))
+
+datos18=datos18 |> 
+  dplyr::select(...1,...7,...8,...16)
+writexl::write_xlsx(datos18,"unidades economicas,personas ocupadas y PIB.xlsx")
+
+#######################
+datos10=readxl::read_excel("../../bases de datos practicas/rd09_HGO01 (1).xls")
+datos10$...1 |> 
+  unique() 
+datos10=datos10 |> 
+  dplyr::filter(!is.na(...1))
+datos10=datos10 |> 
+  dplyr::filter(is.na(...2))
+
+####fila 14 PIB,UNIDADES ECONOMICAS, 8 PERSONAL OCUPADO TOTAL
+datos10=datos10 |> 
+  dplyr::select(...1,`Censos Económicos 2009`,...7,...8,...14,)
+
+datos10=datos10 |> 
+  dplyr::rename(`Unidades Economicas`=...7,`Produccion bruta total`=...14,`Personal Ocupado Total`=...8)
+datos10=datos10 |> 
+  dplyr::rename(`Municipio`=...1)
+
+####la guardamos
+writexl::write_xlsx(datos10,"Unidades economicas-personal ocupado-produccion bruta total.xlsx")
+
+##############################abrimos para el numero de trabajadores 
+datos111=readxl::read_excel("../../bases de datos practicas/cpv2020_a_hgo_08_caracteristicas_economicas.xlsx",sheet=7)
+datos111=datos111 |> 
+    dplyr::filter(!is.na(...2))
+datos111=datos111 |> 
+  dplyr::rename(`Numero de Trabajadores`=...5,`Sector Primario`=...6)
+######sumar 7 y 8 ---- sumar 9 y 10
+
+datos111=datos111 |> 
+  dplyr::filter(...3=="Total",...4=="Valor")
+
+datos111=datos111 |> 
+  dplyr::select(`INEGI. Censo de Población y Vivienda 2020. Tabulados del Cuestionario Ampliado`,...2,`Numero de Trabajadores`,`Sector Primario`,...7,...8,...9,...10)
+
+  
+datos111=datos111 |> 
+  dplyr::mutate(
+    dplyr::across(.cols = c(...7,...8),.fns = ~.x |> as.numeric())
+  )
+
+
+datos111=datos111 |> 
+  dplyr::mutate(
+    `Trabajadores en el Sector secundario%`=...7+...8
+  )
+
+datos111=datos111 |> 
+    dplyr::rename(`Municipio`=...2,`Trabajadores del sector Terciario(Comercio)%`=...9,`Trabajadores del sector Terciario(Servicios)`=...10)
+
+datos111=datos111 |> 
+  dplyr::select(-c(...7,...8))
+datos111=datos111 |> 
+  dplyr::slice(-1)
+datos111=datos111 |> 
+  dplyr::relocate(`Trabajadores en el Sector secundario%`,.before = `Trabajadores del sector Terciario(Comercio)%`)
+datos111=datos111 |> 
+  dplyr::rename(`Trabajadores del Sector Primario%`=`Sector Primario`)
+
+writexl::write_xlsx(datos111,"Trabajadores Totales-Trabajadores del sector primario,etc.xlsx")
 
 
