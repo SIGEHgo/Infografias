@@ -43,8 +43,26 @@ datos = datos |>
     `Población (18 años y más)%`, `Población adulta (30-59 años)%`, 
     `Población adulta mayor (60 y más años)%`,
     `Superficie (km2)`,
-    `Densidad de Población (hab/km2)`)
+    `Densidad de Población (hab/km2)`,
+    `Población Rural`,
+    `Población Urbana`)
   )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -74,13 +92,66 @@ demografica = demografica |>
 demografica = demografica |> 
   dplyr::select(CVE_MUN, `Superficie (km2)`, `Densidad de población (hab./km2)`)
 
-datos = datos |> 
-  dplyr::left_join(y = demografica, by = c("CVE_MUN" = "CVE_MUN"))
+
+
+urbana = "Inputs/Drive/1. Informacion Demografica/Poblacion.xlsx" |>  readxl::read_excel(sheet = 2)
+
+names(urbana) = paste(
+  urbana[5,] |> as.vector() |>  
+  zoo::na.locf(na.rm = T) |>  
+  unlist() |>  
+  as.character(), 
+  urbana[6,]
+) |> gsub(pattern = "NA", replacement = " ") |> 
+  stringr::str_squish()
+
+
+urbana = urbana |> 
+  dplyr::filter(`Localidades/Población` == "Población") |> 
+  dplyr::slice(-1)
+
+urbana = urbana |> 
+  dplyr::mutate(
+    dplyr::across(
+      .cols = `Tamaño de localidad 1-249 habitantes`:`Tamaño de localidad 1 000 000 y más habitantes`,
+      .fns = ~.x |>  as.numeric()
+    )
+  )
+
+urbana = urbana |> 
+  dplyr::mutate(
+    `Población Rural` = `Tamaño de localidad 1-249 habitantes` +
+      `Tamaño de localidad 250-499 habitantes` + `Tamaño de localidad 500-999 habitantes` +
+      `Tamaño de localidad 1 000-2 499 habitantes`,
+    `Población Urbana` = `Tamaño de localidad 2 500-4 999 habitantes` +
+      `Tamaño de localidad 5 000-9 999 habitantes` + `Tamaño de localidad 10 000-14 999 habitantes` +
+      `Tamaño de localidad 15 000-29 999 habitantes` + `Tamaño de localidad 30 000-49 999 habitantes` +
+      `Tamaño de localidad 50 000-99 999 habitantes` + `Tamaño de localidad 100 000-249 999 habitantes` +
+      `Tamaño de localidad 250 000-499 999 habitantes` + `Tamaño de localidad 500 000-999 999 habitantes` + 
+      `Tamaño de localidad 1 000 000 y más habitantes`
+  )
+
+
+urbana = urbana |> 
+  dplyr::mutate(
+    Municipio = paste0("13", Municipio |>  substr(start = 1, stop = 3)) |>  stringr::str_squish()
+  ) |> 
+  dplyr::select(Municipio, `Población Rural`, `Población Urbana`)
+
+
+
+
+
 
 datos = datos |> 
-  dplyr::relocate(c(`Superficie (km2)`, `Densidad de población (hab./km2)`), .after = Municipio) |> 
-  dplyr::rename(`Población Urbana%` = `Población Urbana`,
-                `Población Rural%` = `Población Rural`)
+  dplyr::left_join(y = demografica, by = c("CVE_MUN" = "CVE_MUN")) |> 
+  dplyr::left_join(y = urbana, by = c("CVE_MUN" = "Municipio"))
+
+datos = datos |> 
+  dplyr::relocate(c(`Superficie (km2)`, `Densidad de población (hab./km2)`), .after = Municipio) 
+
+datos = datos |> 
+  dplyr::relocate(c(`Población Rural`, `Población Urbana`), .after = `Población total`)
 
 
 datos |> openxlsx::write.xlsx("Output/Drive/1. Informacion Demografica.xlsx")

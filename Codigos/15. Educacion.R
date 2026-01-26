@@ -94,3 +94,5 @@ educacion = educacion |>
   dplyr::relocate(Municipio, .after = CVE_MUN)
 
 
+
+educacion |>  openxlsx::write.xlsx("Output/Drive/15. Educacion.xlsx")
