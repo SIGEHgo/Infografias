@@ -225,6 +225,9 @@ turismo = "Output/Drive/18. Turismo.xlsx" |>  readxl::read_excel()
 turismo = turismo |> 
   dplyr::select(-Municipio)
 
+turismo = turismo |> 
+  dplyr::rename(CVE_MUN= CVEGEO)
+
 turismo |>  openxlsx::write.xlsx("Output/Drive/18. Turismo.xlsx") 
 
 
