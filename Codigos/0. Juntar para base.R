@@ -51,4 +51,7 @@ datos = datos |>
 
 names(datos) = names(datos) |>  stringr::str_squish()
 
+datos = datos |> 
+  dplyr::rename(`Nombres áreas protegida` = Nombres.áreas.protegida)
+
 datos |>  openxlsx::write.xlsx("Output/Base_Sin_Operaciones_2025_Enero.xlsx")

@@ -148,7 +148,7 @@ carretera |>  openxlsx::write.xlsx("Output/Drive/11. Red Carretera.xlsx")
 ### 12. Areas protegidas ###
 ############################
 
-protegidas = "Output/Drive/12. Areas Protegidas.xlsx" |>  openxlsx::read.xlsx()
+protegidas = "Output/Drive/12. Areas Protegidas.xlsx" |>  readxl::read_excel()
 
 protegidas = protegidas |> 
   dplyr::select(-Municipio)
