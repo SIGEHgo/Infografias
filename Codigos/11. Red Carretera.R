@@ -43,7 +43,7 @@ datos = datos |>
                 ) |> 
   dplyr::mutate(
     `Alimentadoras Estatales` = `Alimentadoras estatales Revestida` + `Alimentadoras estatales Pavimentada`,
-    `Caminos Rurales` = `Caminos rurales Revestida` + `Alimentadoras estatales Pavimentada`
+    `Caminos Rurales` = `Caminos rurales Revestida` + `Caminos rurales Pavimentada`
   ) |> 
   dplyr::select(
     -`Alimentadoras estatales Pavimentada`, -`Alimentadoras estatales Revestida`, 
