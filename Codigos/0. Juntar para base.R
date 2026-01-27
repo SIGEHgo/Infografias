@@ -22,7 +22,7 @@ for (i in 2:length(archivos)) {
     dplyr::left_join(y = datos, by = c("CVE_MUN" = "CVE_MUN"))
 }
 
-juntar |>  openxlsx::write.xlsx("Output/Base_Sin_Operaciones_2025_Enero.xlsx")
+juntar |>  openxlsx::write.xlsx("Output/Infografia_Base_Municipal_Sin_Operaciones_2026_Enero.xlsx")
 
 
 
@@ -34,7 +34,7 @@ juntar |>  openxlsx::write.xlsx("Output/Base_Sin_Operaciones_2025_Enero.xlsx")
 ### Añadir ###
 ##############
 
-datos = "Output/Base_Sin_Operaciones_2025_Enero.xlsx" |>  readxl::read_excel()
+datos = "Output/Infografia_Base_Municipal_Sin_Operaciones_2026_Enero.xlsx" |>  readxl::read_excel()
 region = "Inputs/Ejemplo/Banco de datos infografias _Eduardo_2024.xlsx" |>  readxl::read_excel()
 
 region = region |> 
@@ -57,4 +57,4 @@ datos = datos |>
     `Número de áreas protegidas` = `Número.de.áreas.protegidas`
     )
 
-datos |>  openxlsx::write.xlsx("Output/Base_Sin_Operaciones_2025_Enero.xlsx")
+datos |>  openxlsx::write.xlsx("Output/Infografia_Base_Municipal_Sin_Operaciones_2026_Enero.xlsx")

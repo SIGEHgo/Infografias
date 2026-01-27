@@ -1,4 +1,4 @@
-datos = "Output/Base_Sin_Operaciones_2025_Enero.xlsx" |>  readxl::read_excel()
+datos = "Output/Infografia_Base_Municipal_Sin_Operaciones_2026_Enero.xlsx" |>  readxl::read_excel()
 
 columnas = names(datos) |>  as.data.frame()
 
@@ -250,6 +250,15 @@ datos = datos |>
 
 
 
+#####################
+### Total estatal ###
+#####################
+
+datos = datos |> 
+  dplyr::mutate(
+    `Población total%` = (`Población total`/sum(`Población total`, na.rm = T))*100
+  ) |> 
+  dplyr::relocate(`Población total%`, .after = `Población total`)
 
 
 datos |>  openxlsx::write.xlsx("Output/Infografia_Base_Municipal_2026_Enero.xlsx")
