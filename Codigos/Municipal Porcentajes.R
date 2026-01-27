@@ -261,4 +261,15 @@ datos = datos |>
   dplyr::relocate(`Población total%`, .after = `Población total`)
 
 
+
+############################
+### Ingreso por remesas% ###
+############################
+
+datos = datos |> 
+  dplyr::mutate(
+    `Ingresos por remesas Enero-Septiembre(2025)%` = (`Ingresos por remesas Enero-Septiembre(2025)`/ sum(`Ingresos por remesas Enero-Septiembre(2025)`, na.rm = T))*100
+  ) |> 
+  dplyr::relocate(`Ingresos por remesas Enero-Septiembre(2025)%`, .after = `Ingresos por remesas Enero-Septiembre(2025)`)
+
 datos |>  openxlsx::write.xlsx("Output/Infografia_Base_Municipal_2026_Enero.xlsx")
