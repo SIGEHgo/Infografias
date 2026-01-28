@@ -20,10 +20,8 @@ datos = "Output/Infografia_Base_Municipal_2026_Enero.xlsx" |>  readxl::read_exce
 datos = datos |> 
   dplyr::select(CVE_MUN, Municipio) |> 
   dplyr::mutate(
-    Nombre = paste(CVE_MUN, "-", Municipio),
-    CVE_MUN = CVE_MUN |>  as.numeric()
-  ) |> 
-  dplyr::arrange(CVE_MUN)
+    Nombre = paste(CVE_MUN, "-", Municipio)
+    ) 
 
 for (j in seq_along(datos$Nombre)) {
   

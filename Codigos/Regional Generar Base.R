@@ -1,5 +1,157 @@
 datos = "Output/Infografia_Base_Municipal_Sin_Operaciones_2026_Enero.xlsx" |>  readxl::read_excel()
 
+datos = datos |> 
+  dplyr::rename(
+    `Trabajadores del sector Terciario(Servicios)%` = `Trabajadores del sector Terciario(Servicios)`
+  )
+
+datos = datos |> 
+  dplyr::mutate(
+    dplyr::across(
+      .cols = c(`Superficie (km2)`:`Número de áreas protegidas`, 
+                `Cantidad promedio diaria de residuos sólidos urbanos recolectados`:`Grado promedio de escolaridad`,
+                `Población de 15 años y más`:`Índice de marginación 2020`,
+                `Indice de migracición 2020`,
+                `Total Hospedajes`:`Popoluca insuficientemente especificado`), 
+      .fns = ~ .x |>  as.numeric()
+    )  
+  )
+
+
+
+
+
+### Para sacar esos promedios en un futuro
+datos = datos |> 
+  dplyr::mutate(
+    `Promedio de ocupantes por vivienda_total_provisional_viviendas_particulares` = (`Promedio de ocupantes por vivienda`*`Viviendas particulares habitadas`) |> round(digits = 0),
+    `Promedio de cuartos por vivienda_total_provisional_viviendas_particulares` = (`Promedio de cuartos por vivienda`*`Viviendas particulares habitadas`) |> round(digits = 0),
+  ) 
+
+
+### Va respecto viviendas particulares habitadas
+
+particulares_habitadas = c(
+  "Porcentaje de viviendas con 2.5 ocupantes o más por cuarto",
+  "Porcentaje de viviendas con piso de tierra",
+  "Porcentaje de viviendas sin energía eléctrica",
+  "Porcentaje de viviendas sin agua entubada",
+  "Porcentaje de viviendas sin sanitario ni drenaje",
+  "% Viviendas particulares con hacinamiento"
+  )
+
+
+
+### Buen ejemplo para renombrar
+
+# datos = datos |>
+#   dplyr::mutate(
+#     dplyr::across(
+#       .cols = dplyr::any_of(particulares_habitadas),
+#       .fns = ~ (.x/100 * `Viviendas particulares habitadas`) |>  round(digits = 0),
+#       .names = "{.col}_total"
+#     )
+#   ) |>
+#   dplyr::rename_with(
+#     .cols = dplyr::any_of(paste0(particulares_habitadas, "_total")),
+#     .fn = ~ .x |>  gsub(pattern = "Porcentaje de viviendas", replacement = "Total de viviendas") |>
+#       gsub(pattern = "_total", replacement = "") |> gsub(pattern = "%", replacement = "") |>  stringr::str_squish()
+#     )
+
+
+datos = datos |> 
+  dplyr::mutate(
+    dplyr::across(
+      .cols = dplyr::any_of(particulares_habitadas),
+      .fns = ~ (.x/100 * `Viviendas particulares habitadas`) |>  round(digits = 0),
+      .names = "{.col}_total_provisional_viviendas_particulares" 
+    )
+  ) 
+
+
+
+#### Responto a poblacion total
+
+
+poblacion_total = c(
+  "Rezago educativo 2020%",                                          
+  "Carencia por acceso a los servicios de salud 2020%",              
+  "Carencia por acceso a la seguridad social 2020%",                 
+  "Carencia por calidad y espacios de la vivienda 2020%",            
+  "Carencia por acceso a los servicios básicos en la vivienda 2020%",
+  "Carencia por acceso a la alimentación 2020%",                     
+  "Pobreza 2020%",                                                   
+  "Pobreza extrema 2020%",                                           
+  "Pobreza moderada 2020%",                                          
+  "Vulnerables por carencia social 2020%",                           
+  "Vulnerables por ingreso 2020%"  
+)
+
+
+datos = datos |> 
+  dplyr::select(
+    -dplyr::any_of(
+      poblacion_total |>  
+        gsub(pattern = "2020%",  replacement = "Personas 2020") |> 
+        stringr::str_squish()
+    )
+  ) 
+
+
+datos = datos |>
+  dplyr::mutate(
+    dplyr::across(
+      .cols = dplyr::any_of(poblacion_total),
+      .fns = ~ (.x/100 * `Población total`) |>  round(digits = 0),
+      .names = "{.col}_total"
+    )
+  ) |> 
+  dplyr::rename_with(
+    .cols = paste0(poblacion_total, "_total"),
+    .fn = ~ .x |>  gsub(pattern = "2020%_total", replacement = "Personas 2020") |> stringr::str_squish()
+  )
+
+  
+
+
+
+### Respecto a Numero de Trabajadores
+
+trabajadores_sector = c(
+  "Trabajadores del Sector Primario%",                               
+  "Trabajadores en el Sector secundario%",                           
+  "Trabajadores del sector Terciario(Comercio)%",                    
+  "Trabajadores del sector Terciario(Servicios)%"
+)
+
+
+
+datos = datos |> 
+  dplyr::mutate(
+    dplyr::across(
+      .cols = dplyr::any_of(trabajadores_sector),
+      .fns = ~ (.x/100 * `Numero de Trabajadores`) |>  round(digits = 0),
+      .names = "{.col}_total_provisional_numero_trabajadores" 
+    )
+  ) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Generar base
+
+provisional = names(datos)[grepl("total_provisional", names(datos))]
+
+
 sumas = c(
   "Superficie (km2)",                                                                                                                                          
   "Población total",                                                                                                                                           
@@ -61,13 +213,13 @@ sumas = c(
   "Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Internet",                                                    
   "Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Servicio de televisión de paga (Cable o satelital)",          
   "Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Servicio de películas, música o videos de paga por Internet", 
-  "Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Consola de videojuegos",                                      
-  "Rezago educativo Personas 2020",                                                                                                                            
-  "Carencia por acceso a los servicios de salud Personas 2020",                                                                                                
-  "Carencia por acceso a la seguridad social Personas 2020",                                                                                                   
-  "Carencia por calidad y espacios de la vivienda Personas 2020",                                                                                              
-  "Carencia por acceso a los servicios básicos en la vivienda Personas 2020",                                                                                  
-  "Carencia por acceso a la alimentación Personas 2020",                                                                                                       
+  "Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Consola de videojuegos",
+  "Rezago educativo Personas 2020",                                          
+  "Carencia por acceso a los servicios de salud Personas 2020",              
+  "Carencia por acceso a la seguridad social Personas 2020",                 
+  "Carencia por calidad y espacios de la vivienda Personas 2020",            
+  "Carencia por acceso a los servicios básicos en la vivienda Personas 2020",
+  "Carencia por acceso a la alimentación Personas 2020", 
   "Pobreza Personas 2020",                                                                                                                                     
   "Pobreza extrema Personas 2020",                                                                                                                             
   "Pobreza moderada Personas 2020",                                                                                                                            
@@ -167,9 +319,7 @@ sumas = c(
   "Docentes Educación Primaria",                                                                                                                               
   "Docentes Educación Secundaria",                                                                                                                             
   "Docentes Educación Media Superior",                                                                                                                         
-  "Docentes Educación Superior",                                                                                                                               
-  "Grado promedio de escolaridad",                                                                                                                             
-  "Grado promedio de escolaridad Equivalencia",                                                                                                                
+  "Docentes Educación Superior",
   "Población de 15 años y más",                                                                                                                                
   "Poblacion Analfabeta",                                                                                                                                      
   "Desayunos Integrados",                                                                                                                                      
@@ -603,19 +753,73 @@ sumas = c(
   "Zoque",                                                                                                                                                     
   "Huave",                                                                                                                                                     
   "Otras lenguas indígenas de América",                                                                                                                        
-  "No especificado lengua indigena",                                                                                                                           
+  "No especificado lengua indigena",                                                          
   "Chontal insuficientemente especificado",                                                                                                                    
   "Tepehuano insuficientemente especificado",                                                                                                                  
-  "Popoluca insuficientemente especificado"   
+  "Popoluca insuficientemente especificado",
+  
+  
+  "Promedio de ocupantes por vivienda_total_provisional_viviendas_particulares",
+  "Promedio de cuartos por vivienda_total_provisional_viviendas_particulares"
+  
+) 
+
+concatenar = c(
+  "CVE_MUN",
+  "Municipio",
+  "Nombres áreas protegida"
 )
 
+promedios = c(
+  "Índice de marginación 2020",
+  "Indice de migracición 2020",
+  "Grado promedio de escolaridad"
+)
+
+names(datos)[which(! names(datos) %in% sumas)]
+
+
+
+faltantes = names(datos)[which(! names(datos) %in% sumas)] |>  as.data.frame()
+
+datos = datos |> 
+  dplyr::mutate(
+    dplyr::across(
+      .cols = dplyr::any_of(c(sumas, promedios)),
+      .fns = ~.x |>  as.numeric()
+    )
+  )
 
 
 prueba = datos |> 
   dplyr::group_by(Región) |> 
-  dplyr::mutate(
+  dplyr::summarise(
     dplyr::across(
       .cols = dplyr::any_of(sumas),
-      .fns = ~ sum(.x, na.rm = TRUE)
+      .fns = ~ sum(.x, na.rm = T)
+    ),
+    dplyr::across(
+      .cols = dplyr::any_of(provisional),
+      .fns = ~ sum(.x, na.rm = T)
+    ),
+    dplyr::across(
+      .cols = dplyr::any_of(concatenar),
+      .fns = ~ paste(.x, collapse = ", ")
+    ),
+    dplyr::across(
+      .cols = dplyr::any_of(promedios),
+      .fns = ~ mean(.x, na.rm = T)
     )
   )
+
+
+
+
+
+
+prueba = prueba |> 
+  dplyr::mutate(
+    `Promedio de ocupantes por vivienda` = `Promedio de ocupantes por vivienda_total_provisional_viviendas_particulares` / `Viviendas particulares habitadas`,
+    `Promedio de cuartos por vivienda` = `Promedio de cuartos por vivienda_total_provisional_viviendas_particulares` / `Viviendas particulares habitadas`
+  ) |> 
+  dplyr::select(-c(`Promedio de ocupantes por vivienda_total_provisional_viviendas_particulares`, `Promedio de cuartos por vivienda_total_provisional_viviendas_particulares`))
