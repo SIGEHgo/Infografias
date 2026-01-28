@@ -319,5 +319,8 @@ h4 = c(
 
 
 
+hoja4 = datos |> 
+  dplyr::select(dplyr::any_of(h4))
 
 
+hoja4 |> openxlsx::write.xlsx("../../../../hoja4.xlsx")
