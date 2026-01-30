@@ -145,7 +145,7 @@ provisional = names(datos)[grepl("total_provisional", names(datos))]
 
 source("Codigos/Columnas Regional Metropolitana y Estatal.R")
 
-names(datos)[which(! names(datos) %in% sumas)]
+names(datos)[which(!names(datos) %in% sumas)]
 
 
 
@@ -200,7 +200,9 @@ prueba = prueba |>
     `Promedio de ocupantes por vivienda` = `Promedio de ocupantes por vivienda_total_provisional_viviendas_particulares` / `Viviendas particulares habitadas`,
     `Promedio de cuartos por vivienda` = `Promedio de cuartos por vivienda_total_provisional_viviendas_particulares` / `Viviendas particulares habitadas`
   ) |> 
-  dplyr::select(-c(`Promedio de ocupantes por vivienda_total_provisional_viviendas_particulares`, `Promedio de cuartos por vivienda_total_provisional_viviendas_particulares`))
+  dplyr::select(
+    -c(`Promedio de ocupantes por vivienda_total_provisional_viviendas_particulares`, `Promedio de cuartos por vivienda_total_provisional_viviendas_particulares`)
+    )
 
 
 paste0(particulares_habitadas, "_total_provisional_viviendas_particulares")
@@ -257,6 +259,11 @@ prueba = prueba |>
     .cols = dplyr::any_of(trabajadores_sector |>  paste0("_total_provisional_numero_trabajadores")),
     .fn = ~ .x |>  gsub(pattern = "_total_provisional_numero_trabajadores", replacement = "") |>  stringr::str_squish()
     )
+
+
+
+columnas_iniciales[!columnas_iniciales %in% names(prueba)]
+
 
 
 
