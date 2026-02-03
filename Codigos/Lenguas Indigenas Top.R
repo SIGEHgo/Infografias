@@ -11,7 +11,7 @@ prueba = datos |>
     values_to = "Hablantes") |> 
   dplyr::filter(Hablantes > 0) |>
   dplyr::group_by(CVE_MUN) |>
-  dplyr::slice_max(Hablantes, n = 5, with_ties = FALSE) |>
+  dplyr::slice_max(Hablantes, n = 5, with_ties = F) |>
   dplyr::ungroup()
 
 

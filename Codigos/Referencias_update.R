@@ -17,6 +17,7 @@ columnas = columnas |>
 
 columnas = columnas[-c(1:4),]
 
+
 columnas |>  openxlsx::write.xlsx("Output/Referencias_update.xlsx")
 
 
