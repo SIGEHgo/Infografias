@@ -27,9 +27,51 @@ Las infografias se ven algo asi:
 
 ## Nivel Municipal
 
-La base ya está estructurada de la siguiente manera, con todas las categorías.
+La construcción de la base de datos para estas infografías depende completamente de la base de datos municipal, ya que a partir de ella se generan todas las demás. Por ello, se realizará una nueva estructuración tomando como referencia las infografías elaboradas anteriormente. Principalmente, estas se dividirán en 21 apartados, los cuales son:
 
-![](Img/Estructura_base.png){fig-align="center"}
+-   Información Demografica
+
+-   Salud
+
+-   Vivienda
+
+-   Carencias
+
+-   Pobreza
+
+-   Seguridad
+
+-   Procedimientos Administrativos
+
+-   Justicia
+
+-   Incidencia Delictiva
+
+-   Tratamiento de Aguas Residuales
+
+-   Red Carreteta
+
+-   Areas Protegidas
+
+-   Medio Ambiente
+
+-   Movilidad
+
+-   Educación
+
+-   Comercio
+
+-   Economia
+
+-   Turismo
+
+-   Cultura
+
+-   Producción Ganadera
+
+-   Lengua Indigena
+
+Ademas se añadio un apartado de
 
 ### Obtención de variables de porcentajes
 

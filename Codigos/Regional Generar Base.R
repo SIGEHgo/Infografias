@@ -223,7 +223,6 @@ prueba = prueba |>
 
 
 
-
 ### Porcentajes pendientes
 
 
@@ -238,9 +237,9 @@ prueba = prueba |>
     ) |> 
       dplyr::rename_with(
         .cols = dplyr::any_of(poblacion_total |>
-                                gsub(pattern = "2020%",  replacement = "Personas 2020") |>
+                                gsub(pattern = "2020%",  replacement = "Personas 2020%") |>
                                 stringr::str_squish()),
-        .fn = ~ .x |>  gsub(pattern = "Personas 2020", replacement = "2020%") |> stringr::str_squish()
+        .fn = ~ .x |>  gsub(pattern = "Personas 2020%", replacement = "2020%") |> stringr::str_squish()
       )
   )
 
@@ -265,7 +264,52 @@ prueba = prueba |>
 columnas_iniciales[!columnas_iniciales %in% names(prueba)]
 
 
+prueba = prueba |> 
+  dplyr::mutate(
+    `Densidad de población (hab./km2)` = (`Población total` / `Superficie (km2)`),
+    `Grado promedio de escolaridad Equivalencia` = dplyr::case_when(
+      `Grado promedio de escolaridad` |>  floor() ==  6 ~ "6to grado de Primaria",
+      `Grado promedio de escolaridad` |>  floor() ==  7 ~ "1er año de Secundaria",
+      `Grado promedio de escolaridad` |>  floor() ==  8 ~ "2do año de Secundaria",
+      `Grado promedio de escolaridad` |>  floor() ==  9 ~ "3er año de Secundaria",
+      `Grado promedio de escolaridad` |>  floor() == 10 ~ "1er año de Preparatoria",
+      `Grado promedio de escolaridad` |>  floor() == 11 ~ "2do año de Preparatoria",
+      T ~ `Grado promedio de escolaridad` |>  as.character()
+    ),
+    `Grado de marginación 2020` = dplyr::case_when(
+      `Índice de marginación 2020` >= 48.69173 & `Índice de marginación 2020` < 48.76876 ~ "Muy alto",
+      `Índice de marginación 2020` >= 48.76876 & `Índice de marginación 2020` < 52.67477 ~ "Alto",
+      `Índice de marginación 2020` >= 52.67477 & `Índice de marginación 2020` < 54.59623 ~ "Medio",
+      `Índice de marginación 2020` >= 54.59623 & `Índice de marginación 2020` < 56.64808 ~ "Bajo",
+      `Índice de marginación 2020` >= 56.64808 & `Índice de marginación 2020` <= 59.92392 ~ "Muy bajo",
+      T ~ "Otro"
+    ),
+    `Intensidad de migración 2020` = dplyr::case_when(
+      `Indice de migracición 2020` >= 51.16634 & `Indice de migracición 2020` < 59.44876 ~ "Muy alto",
+      `Indice de migracición 2020` >= 59.44876 & `Indice de migracición 2020` < 61.42459 ~ "Alto",
+      `Indice de migracición 2020` >= 61.42459 & `Indice de migracición 2020` < 63.10283 ~ "Medio",
+      `Indice de migracición 2020` >= 63.10283 & `Indice de migracición 2020` < 64.37895 ~ "Bajo",
+      `Indice de migracición 2020` >= 64.37895 & `Indice de migracición 2020` <= 65.15841 ~ "Muy bajo",
+      T ~ "Otro"
+    )
+  )
+
+prueba = prueba |> 
+  dplyr::mutate(
+    `Nombres áreas protegida` = `Nombres áreas protegida` |>  
+      gsub(pattern = "NA,", replacement = "") |>  
+      gsub(pattern = "NA", replacement = "") |> 
+      stringr::str_squish() |> 
+      gsub(pattern = ",\\s*$", replacement = "") |> 
+      stringr::str_squish()
+  )
 
 
+prueba = prueba |> 
+  dplyr::select(
+    dplyr::any_of(columnas_iniciales)
+  ) 
+
+prueba |>  openxlsx::write.xlsx("Output/Infografia_Base_Regional_Sin_Operaciones_2026_Enero.xlsx")
 
 
