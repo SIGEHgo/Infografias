@@ -1,6 +1,7 @@
-datos = "Output/Infografia_Base_Municipal_2026_Enero.xlsx" |> readxl::read_excel()
+datos = "Output/Infografias Base Enero 2026.xlsx" |> readxl::read_excel(sheet = 1)
 
 columnas = names(datos) |>  as.data.frame()
+
 ################################
 ### Los que son NA pasar a 0 ###
 ################################
@@ -17,7 +18,9 @@ datos = datos |>
                 `Cantidad promedio diaria de residuos sólidos urbanos recolectados`:`Grado promedio de escolaridad`,
                 `Población de 15 años y más`:`Índice de marginación 2020`,
                 `Indice de migracición 2020`,
-                `Total Hospedajes`:`Popoluca insuficientemente especificado`), 
+                `Total Hospedajes`:`Popoluca insuficientemente especificado`,
+                `Lenguas Indigenas Top 5 Conteo`,
+                `Lengua Indigena más hablada conteo 1`:`Lengua Indigena más hablada conteo 5`), 
       .fns = ~ dplyr::if_else(is.na(.x), 0, .x)
     )  
   )
@@ -43,7 +46,10 @@ datos = datos |>
                 `Cantidad promedio diaria de residuos sólidos urbanos recolectados`:`Grado promedio de escolaridad`,
                 `Población de 15 años y más`:`Índice de marginación 2020`,
                 `Indice de migracición 2020`,
-                `Total Hospedajes`:`Popoluca insuficientemente especificado`), 
+                `Total Hospedajes`:`Popoluca insuficientemente especificado`,
+                `Lenguas Indigenas Top 5 Conteo`,
+                `Lengua Indigena más hablada conteo 1`:`Lengua Indigena más hablada conteo 5`
+                ), 
       .fns = ~ .x  |> 
         round(digits = 2) |> 
         formatC(format = "f", big.mark = ",", drop0trailing = T)
@@ -71,6 +77,14 @@ datos = datos |>
     )  
   )
  
+
+datos = datos |> 
+  dplyr::mutate(
+    `Lengua Indigena más hablada 5` = dplyr::if_else(condition = is.na(`Lengua Indigena más hablada 5`), true = "", false = `Lengua Indigena más hablada 5`),
+    `Lengua Indigena más hablada conteo 5` = dplyr::if_else(condition = `Lengua Indigena más hablada conteo 5` == 0, true = "", false = `Lengua Indigena más hablada conteo 5`)
+  )
+
+
 
 h1 =  c(
   "Municipio",
