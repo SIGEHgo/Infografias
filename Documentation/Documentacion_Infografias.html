@@ -131,7 +131,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="nivel-municipal" class="level2">
 <h2 class="anchored" data-anchor-id="nivel-municipal">Nivel Municipal</h2>
 <p>La construcción de la base de datos para estas infografías depende completamente de la base de datos municipal, ya que a partir de ella se generan todas las demás. Por ello, se realizará una nueva estructuración tomando como referencia las infografías elaboradas anteriormente. Principalmente, estas se dividirán en 21 apartados, los cuales son:</p>
-<ul>
+<ol type="1">
 <li><p>Información Demografica</p></li>
 <li><p>Salud</p></li>
 <li><p>Vivienda</p></li>
@@ -153,7 +153,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Cultura</p></li>
 <li><p>Producción Ganadera</p></li>
 <li><p>Lengua Indigena</p></li>
-</ul>
+</ol>
 <section id="estructuración" class="level3">
 <h3 class="anchored" data-anchor-id="estructuración">Estructuración</h3>
 <p>Usamos un archivo de Excel llamado <strong>“referencias”</strong>, donde están todos los enlaces de las fuentes de las variables de interés.</p>
@@ -360,6 +360,84 @@ Por ejemplo, a partir de la variable de interés <strong>“Población Rural”<
 <span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Servicio de películas, música o videos de paga por Internet%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Servicio de películas, música o videos de paga por Internet</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Consola de videojuegos%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Consola de videojuegos</span><span class="st">`</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</section>
+<section id="porcentajes-respecto-a-población-de-15-años-y-más" class="level4">
+<h4 class="anchored" data-anchor-id="porcentajes-respecto-a-población-de-15-años-y-más">Porcentajes respecto a “Población de 15 años y más”</h4>
+<p>Las columnas de interes son:</p>
+<ul>
+<li>Poblacion Analfabeta</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Poblacion Analfabeta%</span><span class="st">`</span> <span class="ot">=</span> (<span class="st">`</span><span class="at">Poblacion Analfabeta</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">Población de 15 años y más</span><span class="st">`</span>)<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Poblacion Analfabeta%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Poblacion Analfabeta</span><span class="st">`</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="porcentajes-respecto-a-población-económicamente-activa-ocupada-total" class="level4">
+<h4 class="anchored" data-anchor-id="porcentajes-respecto-a-población-económicamente-activa-ocupada-total">Porcentajes respecto a “Población económicamente activa Ocupada Total”</h4>
+<p>Las columnas de interes son:</p>
+<ul>
+<li><p>Población económicamente activa Ocupada Hombres</p></li>
+<li><p>Población económicamente activa Ocupada Mujeres</p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> dplyr<span class="sc">::</span><span class="fu">any_of</span>(ocupada_total),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span> (.x <span class="sc">/</span><span class="st">`</span><span class="at">Población económicamente activa Ocupada Total</span><span class="st">`</span>)<span class="sc">*</span><span class="dv">100</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{.col}%"</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(ocupada_total)) {</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"dplyr::relocate(`"</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste0</span>(ocupada_total[i], <span class="st">"%"</span>),</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"`, .after = `"</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    ocupada_total[i],</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"`) |&gt; </span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">""</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Población económicamente activa Ocupada Hombres%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Población económicamente activa Ocupada Hombres</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Población económicamente activa Ocupada Mujeres%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Población económicamente activa Ocupada Mujeres</span><span class="st">`</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="porcentajes-respecto-a-población-total-estatal" class="level4">
+<h4 class="anchored" data-anchor-id="porcentajes-respecto-a-población-total-estatal">Porcentajes respecto a “Población total Estatal”</h4>
+<p>Las columnas de interes son:</p>
+<ul>
+<li>Población total</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Población total%</span><span class="st">`</span> <span class="ot">=</span> (<span class="st">`</span><span class="at">Población total</span><span class="st">`</span><span class="sc">/</span><span class="fu">sum</span>(<span class="st">`</span><span class="at">Población total</span><span class="st">`</span>, <span class="at">na.rm =</span> T))<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Población total%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Población total</span><span class="st">`</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="porcentajes-respecto-a-ingreso-por-remesas" class="level4">
+<h4 class="anchored" data-anchor-id="porcentajes-respecto-a-ingreso-por-remesas">Porcentajes respecto a “Ingreso por remesas”</h4>
+<p>Las columnas de interes son:</p>
+<ul>
+<li>Ingresos por remesas Enero-Septiembre(2025)</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Ingresos por remesas Enero-Septiembre(2025)%</span><span class="st">`</span> <span class="ot">=</span> (<span class="st">`</span><span class="at">Ingresos por remesas Enero-Septiembre(2025)</span><span class="st">`</span><span class="sc">/</span> <span class="fu">sum</span>(<span class="st">`</span><span class="at">Ingresos por remesas Enero-Septiembre(2025)</span><span class="st">`</span>, <span class="at">na.rm =</span> T))<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Ingresos por remesas Enero-Septiembre(2025)%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Ingresos por remesas Enero-Septiembre(2025)</span><span class="st">`</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>De esta manera nos queda en total <strong>698</strong> columnas.</p>
 </section>
 </section>
 </section>

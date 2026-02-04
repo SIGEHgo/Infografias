@@ -29,47 +29,47 @@ Las infografias se ven algo asi:
 
 La construcción de la base de datos para estas infografías depende completamente de la base de datos municipal, ya que a partir de ella se generan todas las demás. Por ello, se realizará una nueva estructuración tomando como referencia las infografías elaboradas anteriormente. Principalmente, estas se dividirán en 21 apartados, los cuales son:
 
--   Información Demografica
+1.  Información Demografica
 
--   Salud
+2.  Salud
 
--   Vivienda
+3.  Vivienda
 
--   Carencias
+4.  Carencias
 
--   Pobreza
+5.  Pobreza
 
--   Seguridad
+6.  Seguridad
 
--   Procedimientos Administrativos
+7.  Procedimientos Administrativos
 
--   Justicia
+8.  Justicia
 
--   Incidencia Delictiva
+9.  Incidencia Delictiva
 
--   Tratamiento de Aguas Residuales
+10. Tratamiento de Aguas Residuales
 
--   Red Carreteta
+11. Red Carreteta
 
--   Areas Protegidas
+12. Areas Protegidas
 
--   Medio Ambiente
+13. Medio Ambiente
 
--   Movilidad
+14. Movilidad
 
--   Educación
+15. Educación
 
--   Comercio
+16. Comercio
 
--   Economia
+17. Economia
 
--   Turismo
+18. Turismo
 
--   Cultura
+19. Cultura
 
--   Producción Ganadera
+20. Producción Ganadera
 
--   Lengua Indigena
+21. Lengua Indigena
 
 ### Estructuración
 
@@ -277,6 +277,7 @@ datos = datos |>
     )
   )
 ```
+
 Mismo razonamiento que el anterior para recolocar las columnas.
 
 ```{r eval=FALSE}
@@ -340,3 +341,122 @@ datos = datos |>
   dplyr::relocate(`Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Consola de videojuegos%`, .after = `Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Consola de videojuegos`)
 ```
 
+#### Porcentajes respecto a "Población de 15 años y más"
+
+Las columnas de interes son:
+
+-   Poblacion Analfabeta
+
+```{r eval=FALSE}
+datos = datos |> 
+  dplyr::mutate(
+    `Poblacion Analfabeta%` = (`Poblacion Analfabeta`/`Población de 15 años y más`)*100
+  ) |> 
+  dplyr::relocate(`Poblacion Analfabeta%`, .after = `Poblacion Analfabeta`)
+```
+
+#### Porcentajes respecto a "Población económicamente activa Ocupada Total"
+
+Las columnas de interes son:
+
+-   Población económicamente activa Ocupada Hombres
+
+-   Población económicamente activa Ocupada Mujeres
+
+```{r eval=FALSE}
+datos = datos |> 
+  dplyr::mutate(
+    dplyr::across(
+      .cols = dplyr::any_of(ocupada_total),
+      .fns = ~ (.x /`Población económicamente activa Ocupada Total`)*100,
+      .names = "{.col}%"
+    )
+  )
+
+
+for (i in seq_along(ocupada_total)) {
+  cat(
+    "dplyr::relocate(`",
+    paste0(ocupada_total[i], "%"),
+    "`, .after = `",
+    ocupada_total[i],
+    "`) |> \n",
+    sep = ""
+  )
+}
+
+
+datos = datos |> 
+  dplyr::relocate(`Población económicamente activa Ocupada Hombres%`, .after = `Población económicamente activa Ocupada Hombres`) |> 
+  dplyr::relocate(`Población económicamente activa Ocupada Mujeres%`, .after = `Población económicamente activa Ocupada Mujeres`) 
+```
+
+#### Porcentajes respecto a "Población total Estatal"
+
+Las columnas de interes son:
+
+-   Población total
+
+```{r eval=FALSE}
+datos = datos |> 
+  dplyr::mutate(
+    `Población total%` = (`Población total`/sum(`Población total`, na.rm = T))*100
+  ) |> 
+  dplyr::relocate(`Población total%`, .after = `Población total`)
+```
+
+#### Porcentajes respecto a "Ingreso por remesas"
+
+Las columnas de interes son:
+
+-   Ingresos por remesas Enero-Septiembre(2025)
+
+```{r eval=FALSE}
+datos = datos |> 
+  dplyr::mutate(
+    `Ingresos por remesas Enero-Septiembre(2025)%` = (`Ingresos por remesas Enero-Septiembre(2025)`/ sum(`Ingresos por remesas Enero-Septiembre(2025)`, na.rm = T))*100
+  ) |> 
+  dplyr::relocate(`Ingresos por remesas Enero-Septiembre(2025)%`, .after = `Ingresos por remesas Enero-Septiembre(2025)`)
+```
+
+De esta manera nos queda en total **698** columnas.
+
+## Nivel Regional
+
+Vamos a utilizar como base el archivo **Infografia_Base_Municipal_Sin_Operaciones_2026_Enero.xlsx,** la idea es generar esa misma base pero agrupados a nivel regional, pero algunas variables existen detalles que debemos hacer operaciones previas.
+
+Para esto vamos a guardar todas los nombres de las columnas:
+
+```{r eval=FALSE}
+columnas_iniciales = names(datos)
+```
+
+Comenzamos con lo mismo, pasando a numerico todas las variables necesarias y renombrando correctamente algunas:
+
+```{r eval=FALSE}
+datos = datos |> 
+  dplyr::rename(
+    `Trabajadores del sector Terciario(Servicios)%` = `Trabajadores del sector Terciario(Servicios)`
+  )
+
+datos = datos |> 
+  dplyr::mutate(
+    dplyr::across(
+      .cols = c(`Superficie (km2)`:`Número de áreas protegidas`, 
+                `Cantidad promedio diaria de residuos sólidos urbanos recolectados`:`Grado promedio de escolaridad`,
+                `Población de 15 años y más`:`Índice de marginación 2020`,
+                `Indice de migracición 2020`,
+                `Total Hospedajes`:`Popoluca insuficientemente especificado`), 
+      .fns = ~ .x |>  as.numeric()
+    )  
+  )
+```
+
+#### Promedio de ocupantes por vivienda
+
+Se define como\
+Promedio de ocupantes por vivienda = (Total de poblacion en viviendas particulades)/(Total de viviendas particulares habitadas)
+
+Entonces
+
+Total de poblacion en viviendas particulades = (Promedio de ocupantes por vivienda )\*(Total de viviendas particulares habitadas)
