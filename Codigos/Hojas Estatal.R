@@ -128,18 +128,37 @@ h1 =  c(
   "Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Teléfono celular%",
   "Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Internet%",
   "Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Servicio de televisión de paga (Cable o satelital)%",
-  "Rezago educativo 2020%",
-  "Carencia por acceso a los servicios de salud 2020%",
-  "Carencia por acceso a la alimentación 2020%",
-  "Carencia por acceso a la seguridad social 2020%",
-  "Carencia por calidad y espacios de la vivienda 2020%",
-  "Carencia por acceso a los servicios básicos en la vivienda 2020%",
+  
+  "Rezago educativo 2020%",                                                                                                                                    
+  "Rezago educativo Personas 2020",                                                                                                                            
+  "Carencia por acceso a los servicios de salud 2020%",                                                                                                        
+  "Carencia por acceso a los servicios de salud Personas 2020",                                                                                                
+  "Carencia por acceso a la seguridad social 2020%",                                                                                                           
+  "Carencia por acceso a la seguridad social Personas 2020",                                                                                                   
+  "Carencia por calidad y espacios de la vivienda 2020%",                                                                                                      
+  "Carencia por calidad y espacios de la vivienda Personas 2020",                                                                                              
+  "Carencia por acceso a los servicios básicos en la vivienda 2020%",                                                                                          
+  "Carencia por acceso a los servicios básicos en la vivienda Personas 2020",                                                                                  
+  "Carencia por acceso a la alimentación 2020%",                                                                                                               
+  "Carencia por acceso a la alimentación Personas 2020",
+  
   "Pobreza 2020%",
   "Pobreza Personas 2020",
   "Pobreza extrema 2020%",
   "Pobreza extrema Personas 2020",
   "Vulnerables por ingreso 2020%",
-  "Vulnerables por ingreso Personas 2020"
+  "Vulnerables por ingreso Personas 2020",
+  
+  "Lengua Indigena más hablada 1",                                                                                                                             
+  "Lengua Indigena más hablada 2",                                                                                                                             
+  "Lengua Indigena más hablada 3",                                                                                                                             
+  "Lengua Indigena más hablada 4",                                                                                                                             
+  "Lengua Indigena más hablada 5",                                                                                                                             
+  "Lengua Indigena más hablada conteo 1",                                                                                                                      
+  "Lengua Indigena más hablada conteo 2",                                                                                                                      
+  "Lengua Indigena más hablada conteo 3",                                                                                                                      
+  "Lengua Indigena más hablada conteo 4",                                                                                                                      
+  "Lengua Indigena más hablada conteo 5" 
 )
 
 
@@ -149,7 +168,7 @@ hoja1 = datos |>
 
 
 
-hoja1 |>  openxlsx::write.xlsx("../../../../Zona Metropolitana hoja 1.xlsx")
+hoja1 |>  openxlsx::write.xlsx("../../../../Estatal hoja 1.xlsx")
 
 
 ############################################################
@@ -184,36 +203,6 @@ h2 = c(
   "Violación",
   "Violencia familiar",
   "Otros delitos",
-  "Tiendas Diconsa",
-  "Tianguis",
-  "Mercados públicos",
-  "Centrales de abasto",
-  "Estaciones de servicio Gasolinerias",
-  "Puntos de atención LICONSA",
-  "Familias beneficiarias LICONSA",
-  "Beneficiarios LICONSA",
-  "Dotación anual de leche fortificada (Litros) LICONSA"
-)
-
-hoja2 = datos |> 
-  dplyr::select(dplyr::any_of(h2))
-
-
-hoja2 |>  openxlsx::write.xlsx("../../../../Zona Metropolitana hoja 2.xlsx")
-############################################################
-############################################################
-############################################################
-
-
-h3 = c(
-  "Zona Metropolitana",
-  "Plantas de tratamiento en operación, capacidad instalada y volumen tratado de aguas residuales por municipio y tipo de servicio según nivel de tratamiento",
-  "Volumen tratado (Millones de metros cúbicos)",
-  "Longitud de la Red Carretera",
-  "Carretras Federales",
-  "Alimentadoras Estatales",
-  "Caminos Rurales",
-  "Brechas mejoradas",
   "Escuelas Total",
   "Escuelas Educación Preescolar",
   "Escuelas Educación Primaria",
@@ -237,23 +226,51 @@ h3 = c(
   "Poblacion Analfabeta%",
   "Desayunos Integrados",
   "Uniformes",
-  "Becas",
-  "Hoteles",
-  "Moteles",
-  "Pensiones y casas de huéspedes",
-  "Cabañas, villas y similares",
-  "Departamentos y casas amuebladas con servicio de hotelería",
-  "Restaurantes",
-  "Servicios de preparación de otros alimentos para consumo inmediato",
-  "Cafeterías, fuentes de sodas, neverías, refresquerías y similares",
-  "Bares, cantinas y similares",
-  "Centros nocturnos, discotecas y similares",
+  "Becas"
+)
+
+hoja2 = datos |> 
+  dplyr::select(dplyr::any_of(h2))
+
+
+hoja2 |>  openxlsx::write.xlsx("../../../../Estatal hoja 2.xlsx")
+############################################################
+############################################################
+############################################################
+
+
+h3 = c(
+  "Zona Metropolitana",
+  
+  "Tiendas Diconsa",
+  "Tianguis",
+  "Mercados públicos",
+  "Centrales de abasto",
+  "Estaciones de servicio Gasolinerias",
+  "Puntos de atención LICONSA",
+  "Familias beneficiarias LICONSA",
+  "Beneficiarios LICONSA",
+  "Dotación anual de leche fortificada (Litros) LICONSA",
+  
+  "Plantas de tratamiento en operación, capacidad instalada y volumen tratado de aguas residuales por municipio y tipo de servicio según nivel de tratamiento",
+  "Volumen tratado (Millones de metros cúbicos)",
+  
+  "Longitud de la Red Carretera",
+  "Carretras Federales",
+  "Alimentadoras Estatales",
+  "Caminos Rurales",
+  "Brechas mejoradas",
+  
+  "Bibliotecas públicas",
+  "Centros y unidades deportivas"
+  
+  
 )
 
 hoja3 = datos |> 
   dplyr::select(dplyr::any_of(h3))
 
-hoja3 |>  openxlsx::write.xlsx("../../../../Zona Metropolitana hoja 3.xlsx")
+hoja3 |>  openxlsx::write.xlsx("../../../../Estatal hoja 3.xlsx")
 
 
 
@@ -275,6 +292,7 @@ h4 = c(
   "Unidades Económicas",
   "Unidades Económicas Personal Ocupado",
   "Unidades Económicas Producción bruta total (millones de pesos)",
+  "Numero de Trabajadores",
   "Trabajadores del Sector Primario%",
   "Trabajadores en el Sector secundario%",
   "Trabajadores del sector Terciario(Comercio)%",
@@ -288,20 +306,15 @@ h4 = c(
   "Volumen de la Producción (tons)",
   "Valor de la Producción (miles de pesos)",
   
-  "Bibliotecas públicas",
-  "Centros y unidades deportivas",
-  
   
   "Maíz grano (Tonelada) Valor de la Producción",
   "Maíz grano (Tonelada) Volumen de la Producción",
-  "Frijol (Tonelada) Valor de la Producción",
-  "Frijol (Tonelada) Volumen de la Producción",
-  "Avena forrajera en verde (Tonelada) Valor de la Producción",
-  "Avena forrajera en verde (Tonelada) Volumen de la Producción",
-  "Alfalfa (Tonelada) Valor de la Producción",
-  "Alfalfa (Tonelada) Volumen de la Producción",
-  "Maguey pulquero (Miles de lts.) Valor de la Producción",
-  "Maguey pulquero (Miles de lts.) Volumen de la Producción",
+  "Aguacate (Tonelada) Valor de la Producción",                                                                                                                
+  "Aguacate (Tonelada) Volumen de la Producción",
+  "Manzana (Tonelada) Valor de la Producción",                                                                                                                 
+  "Manzana (Tonelada) Volumen de la Producción",
+  "Durazno (Tonelada) Valor de la Producción",                                                                                                                 
+  "Durazno (Tonelada) Volumen de la Producción",
   
   "Producción en toneladas de ganado en pie de tipo bovino",
   "Valor de la producción en miles de pesos de ganado en pie de tipo bovino",
@@ -329,4 +342,4 @@ hoja4 = datos |>
   dplyr::select(dplyr::any_of(h4))
 
 
-hoja4 |> openxlsx::write.xlsx("../../../../Zona Metropolitana hoja 4.xlsx")
+hoja4 |> openxlsx::write.xlsx("../../../../Estatal hoja 4.xlsx")

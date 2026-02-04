@@ -21,11 +21,11 @@ archivos = archivos[!grepl("Lote", archivos)]
 archivos
 
 
-datos = "Output/Infografia_Base_Municipal_2026_Enero.xlsx" |>  readxl::read_excel()
+datos = "Output/Infografias Base Enero 2026.xlsx" |>  readxl::read_excel(sheet = 1)
 datos = datos |> 
-  dplyr::select(CVE_MUN, Municipio) |> 
+  dplyr::select(CVE_MUN,Municipio) |> 
   dplyr::mutate(
-    Nombre = paste(CVE_MUN, "-", Municipio)
+    Nombre = Municipio
     ) 
 
 for (j in seq_along(datos$Nombre)) {
@@ -45,7 +45,7 @@ for (j in seq_along(datos$Nombre)) {
   
   pdftools::pdf_combine(
     input = paginas,
-    output = paste0("Output/Infografias/Municipal/", datos$Nombre[j], ".pdf")
+    output = paste0("Output/Infografias/Municipal/Infografía Municipal ", datos$Nombre[j], ".pdf")
   )
 
 }
@@ -90,6 +90,25 @@ for (j in seq_along(datos$Región)) {
 }
 
 
+### Colocar portadas
+
+archivos = list.files(path = "Output/Infografias/Regional/", full.names = T)
+
+for (i in seq_along(archivos)) {
+  temporal = tempfile(fileext = ".pdf")
+  pdftools::pdf_subset(
+    input = "Inputs/Portadas/Portadas Regionales.pdf",
+    pages = i,
+    output = temporal
+  )
+  
+  pdftools::pdf_combine(
+    input = c(temporal, archivos[i]),
+    output = paste0("../../../../", basename(archivos[i]))
+  )
+}
+
+
 
 
 ##########################
@@ -120,7 +139,44 @@ for (j in seq_along(datos$`Zona Metropolitana`)) {
   
   pdftools::pdf_combine(
     input = paginas,
-    output = paste0("Output/Infografias/Metropolitana/", datos$`Zona Metropolitana`[j], ".pdf")
+    output = paste0("Output/Infografias/Zona Metropolitana/", datos$`Zona Metropolitana`[j], ".pdf")
   )
   
 }
+
+
+
+
+### Colocar portadas
+
+
+archivos = list.files(path = "Output/Infografias/Zona Metropolitana/", full.names = T)
+
+for (i in seq_along(archivos)) {
+  temporal = tempfile(fileext = ".pdf")
+  pdftools::pdf_subset(
+    input = "Inputs/Portadas/Portadas Zonas Metropolitanas.pdf",
+    pages = i,
+    output = temporal
+  )
+  
+  pdftools::pdf_combine(
+    input = c(temporal, archivos[i]),
+    output = paste0("../../../../", basename(archivos[i]))
+  )
+}
+
+
+
+
+
+###############
+### Estatal ###
+###############
+
+archivos = list.files(path = "Inputs/Canva/Estatal/", full.names = T)
+
+pdftools::pdf_combine(
+  input = archivos,
+  output = paste0("Output/Infografias/Estatal/Estatal.pdf")
+)
