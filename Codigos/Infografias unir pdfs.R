@@ -1,3 +1,8 @@
+#################
+### Municipal ###
+#################
+
+
 archivos = list.files(path = "Inputs/Canva/Municipal/", full.names = T)
 
 for (i in 1:4) {
@@ -48,3 +53,74 @@ for (j in seq_along(datos$Nombre)) {
 
 
 
+
+
+
+
+################
+### Regional ###
+################
+
+archivos = list.files(path = "Inputs/Canva/Regional/", full.names = T)
+
+
+datos = "Output/Infografias Base Enero 2026.xlsx" |>  readxl::read_excel(sheet = 2)
+
+
+for (j in seq_along(datos$Región)) {
+  
+  cat("Vamos en ", datos$Región[j], "\n")
+  
+  paginas = lapply(seq_along(archivos), FUN = function(i) {
+    temporal = tempfile(fileext = ".pdf")
+    pdftools::pdf_subset(
+      input = archivos[i],
+      pages = j,
+      output = temporal
+    )
+    
+    return(temporal)
+  })
+  
+  pdftools::pdf_combine(
+    input = paginas,
+    output = paste0("Output/Infografias/Regional/", datos$Región[j], ".pdf")
+  )
+  
+}
+
+
+
+
+##########################
+### Zona Metropolitana ###
+##########################
+
+
+archivos = list.files(path = "Inputs/Canva/Zona Metropolitana/", full.names = T)
+
+
+datos = "Output/Infografias Base Enero 2026.xlsx" |>  readxl::read_excel(sheet = 3)
+
+
+for (j in seq_along(datos$`Zona Metropolitana`)) {
+  
+  cat("Vamos en ", datos$`Zona Metropolitana`[j], "\n")
+  
+  paginas = lapply(seq_along(archivos), FUN = function(i) {
+    temporal = tempfile(fileext = ".pdf")
+    pdftools::pdf_subset(
+      input = archivos[i],
+      pages = j,
+      output = temporal
+    )
+    
+    return(temporal)
+  })
+  
+  pdftools::pdf_combine(
+    input = paginas,
+    output = paste0("Output/Infografias/Metropolitana/", datos$`Zona Metropolitana`[j], ".pdf")
+  )
+  
+}
