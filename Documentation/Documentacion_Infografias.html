@@ -130,140 +130,237 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="nivel-municipal" class="level2">
 <h2 class="anchored" data-anchor-id="nivel-municipal">Nivel Municipal</h2>
-<p>La base ya está estructurada de la siguiente manera, con todas las categorías.</p>
+<p>La construcción de la base de datos para estas infografías depende completamente de la base de datos municipal, ya que a partir de ella se generan todas las demás. Por ello, se realizará una nueva estructuración tomando como referencia las infografías elaboradas anteriormente. Principalmente, estas se dividirán en 21 apartados, los cuales son:</p>
+<ul>
+<li><p>Información Demografica</p></li>
+<li><p>Salud</p></li>
+<li><p>Vivienda</p></li>
+<li><p>Carencias</p></li>
+<li><p>Pobreza</p></li>
+<li><p>Seguridad</p></li>
+<li><p>Procedimientos Administrativos</p></li>
+<li><p>Justicia</p></li>
+<li><p>Incidencia Delictiva</p></li>
+<li><p>Tratamiento de Aguas Residuales</p></li>
+<li><p>Red Carreteta</p></li>
+<li><p>Areas Protegidas</p></li>
+<li><p>Medio Ambiente</p></li>
+<li><p>Movilidad</p></li>
+<li><p>Educación</p></li>
+<li><p>Comercio</p></li>
+<li><p>Economia</p></li>
+<li><p>Turismo</p></li>
+<li><p>Cultura</p></li>
+<li><p>Producción Ganadera</p></li>
+<li><p>Lengua Indigena</p></li>
+</ul>
+<section id="estructuración" class="level3">
+<h3 class="anchored" data-anchor-id="estructuración">Estructuración</h3>
+<p>Usamos un archivo de Excel llamado <strong>“referencias”</strong>, donde están todos los enlaces de las fuentes de las variables de interés.</p>
+<p>En la carpeta <strong>códigos</strong> del repositorio hay un archivo de R para cada sección. Cada uno se encarga de limpiar los archivos descargados y obtener la variable que necesitamos. No entraremos en el detalle de cómo se hace esa limpieza.</p>
+<p>Lo importante es que, al final de cada script de R, se genera un archivo de Excel con el nombre de la sección y sus variables de interés.</p>
+<p><strong><em>Nota importante:</em></strong></p>
+<p>Si necesitas limpiar un archivo, la estructura debe guardarse comenzando con la columna <strong>CVE_MUN</strong>, seguida de las variables. Esto es necesario porque después se hará un <em>merge</em> automático en el script de R llamado <em>0.Juntar para base.R</em>. Ese problema de estructura se corrige en el código <em>00.Corrección de columna de municipios.R</em></p>
+</section>
+<section id="base-de-datos" class="level3">
+<h3 class="anchored" data-anchor-id="base-de-datos">Base de datos</h3>
+<p>La base de datos se construirá uniendo todas las bases de cada sección mediante el código <strong>0.Juntar para base.R</strong>.<br>
+</p>
+<p>El archivo final se llamará <strong>Infografia_Base_Municipal_Sin_Operaciones_2026_Enero.xlsx</strong> y tendrá la siguiente forma:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="Img/Estructura_base.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
-<section id="obtención-de-variables-de-porcentajes" class="level3">
-<h3 class="anchored" data-anchor-id="obtención-de-variables-de-porcentajes">Obtención de variables de porcentajes</h3>
-<section id="respecto-a-poblacion-total" class="level4">
-<h4 class="anchored" data-anchor-id="respecto-a-poblacion-total">Respecto a “Poblacion Total”</h4>
-<p>Se generan:</p>
-<ul>
-<li><p>Población Urbana%</p></li>
-<li><p>Población Rural%</p></li>
-<li><p>Población Mujeres%</p></li>
-<li><p>Población Hombres%</p></li>
-<li><p>Población infantil (0-14 años)%</p></li>
-<li><p>Población juvenil (15-29 años)%</p></li>
-<li><p>Población (18 años y más)%</p></li>
-<li><p>Población adulta (30-59 años)%</p></li>
-<li><p>Población adulta mayor (60 y más años)%</p></li>
-<li><p>Usuarios de los Servicios de Salud%</p></li>
-<li><p>Carencia por Acceso a los Servicios de Salud%</p></li>
-<li><p>Carencia por Acceso a la Seguridad Social%</p></li>
-<li><p>Carencia por Calidad y Espacios de la Vivienda%</p></li>
-<li><p>Carencia por Acceso a los Servicios Básicos en la Vivienda%</p></li>
-<li><p>Carencia por Acceso a la Alimentación%</p></li>
-<li><p>Pobreza%</p></li>
-<li><p>Pobreza extrema%</p></li>
-<li><p>Vulnerables por Ingreso%</p></li>
-<li><p>Porcentaje de la población analfabeta Se considera indígena (porcentaje)</p></li>
-</ul>
+<p>Tiene <strong>639</strong> variables, donde obtendremos distintas columnas haciendo diversas operaciones. Pero para hacer operaciones. primero debemos pasar todas las columnas que corresponden a numerico.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> <span class="st">`</span><span class="at">Población Mujeres</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">Población adulta mayor (60 y más años)</span><span class="st">`</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span> (.x <span class="sc">/</span> <span class="st">`</span><span class="at">Población total</span><span class="st">`</span>) <span class="sc">*</span> <span class="dv">100</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{.col}%"</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">### Queda pendiente esta ultima linea</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="fu">sort</span>(<span class="fu">names</span>(datos)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">Superficie (km2)</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">Número de áreas protegidas</span><span class="st">`</span>, </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                <span class="st">`</span><span class="at">Cantidad promedio diaria de residuos sólidos urbanos recolectados</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">Grado promedio de escolaridad</span><span class="st">`</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">`</span><span class="at">Población de 15 años y más</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">Índice de marginación 2020</span><span class="st">`</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">`</span><span class="at">Indice de migracición 2020</span><span class="st">`</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                <span class="st">`</span><span class="at">Total Hospedajes</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">Popoluca insuficientemente especificado</span><span class="st">`</span>), </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span> .x <span class="sc">|&gt;</span>  <span class="fu">as.numeric</span>()</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    )  </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</section>
-<section id="respecto-a-viviendas-particulares-habitadas" class="level4">
-<h4 class="anchored" data-anchor-id="respecto-a-viviendas-particulares-habitadas">Respecto a “Viviendas Particulares Habitadas”</h4>
-<p>Se generan:</p>
+<section id="porcentajes-respecto-a-poblacion-total" class="level4">
+<h4 class="anchored" data-anchor-id="porcentajes-respecto-a-poblacion-total">Porcentajes respecto a “Poblacion Total”</h4>
+<p>Las columnas de interes son:</p>
 <ul>
-<li><p>Deficit de Agua Potable%</p></li>
-<li><p>Deficit de Drenaje%</p></li>
-<li><p>Deficit de Energía Eléctrica%</p></li>
-<li><p>Viviendas con computadora%</p></li>
-<li><p>Viviendas con Internet%</p></li>
-<li><p>Viviendas con Servicios de TV de Paga%</p></li>
-<li><p>Viviendas con Celular%</p></li>
-<li><p>Viviendas con Telefonía Fija%</p></li>
-<li><p>Viviendas con TV Plana%</p></li>
+<li><p>Población Rural</p></li>
+<li><p>Población Urbana</p></li>
+<li><p>Población Mujeres</p></li>
+<li><p>Población Hombres</p></li>
+<li><p>Población infantil (0-14 años)</p></li>
+<li><p>Población juvenil (15-29 años)</p></li>
+<li><p>Población (18 años y más)</p></li>
+<li><p>Población adulta (30-59 años)</p></li>
+<li><p>Población adulta mayor (60 y más años)</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Copie el codigo de arriba pero es la misma idea</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> <span class="st">`</span><span class="at">Población Mujeres</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">Población adulta mayor (60 y más años)</span><span class="st">`</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span> (.x <span class="sc">/</span> <span class="st">`</span><span class="at">Población total</span><span class="st">`</span>) <span class="sc">*</span> <span class="dv">100</span>,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{.col}%"</span>,</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="do">### Queda pendiente esta ultima linea</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="fu">sort</span>(<span class="fu">names</span>(datos)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> dplyr<span class="sc">::</span><span class="fu">any_of</span>(poblacion_total),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span> (.x <span class="sc">/</span><span class="st">`</span><span class="at">Población total</span><span class="st">`</span>)<span class="sc">*</span><span class="dv">100</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{.col}%"</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</section>
-<section id="respecto-a-población-económicamente-activa-pea" class="level4">
-<h4 class="anchored" data-anchor-id="respecto-a-población-económicamente-activa-pea">Respecto a “Población Económicamente Activa PEA”</h4>
-<p>Se generan:</p>
-<ul>
-<li><p>Población Ocupada%</p></li>
-<li><p>Población Desocupada%</p></li>
-</ul>
+<p>Cabe destacar que el proceso genera columnas completamente nuevas siguiendo el patrón de agregar <strong>%</strong> al final del nombre.<br>
+Por ejemplo, a partir de la variable de interés <strong>“Población Rural”</strong>, se crea una nueva columna llamada <strong>“Población Rural%”</strong>. El detalle es que estas nuevas columnas se agregan hasta el final del <em>data.frame</em>, y por el momento no se encontró una función que las coloque justo al lado de la columna original.</p>
+<p>Por ello, se creó un pequeño código que se encarga de moverlas y dejarlas junto a su columna correspondiente.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Copie el codigo de arriba pero es la misma idea</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> <span class="st">`</span><span class="at">Población Mujeres</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">Población adulta mayor (60 y más años)</span><span class="st">`</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span> (.x <span class="sc">/</span> <span class="st">`</span><span class="at">Población total</span><span class="st">`</span>) <span class="sc">*</span> <span class="dv">100</span>,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{.col}%"</span>,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(poblacion_total)) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"dplyr::relocate(`"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste0</span>(poblacion_total[i], <span class="st">"%"</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"`, .after = `"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    poblacion_total[i],</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"`) |&gt; </span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">""</span></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="do">### Queda pendiente esta ultima linea</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="fu">sort</span>(<span class="fu">names</span>(datos)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Con este codigo unicamente debemos de copiar lo que nos manda imprimir el <em><code>for</code></em>, ejemplo de ello es:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Población Rural%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Población Rural</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Población Urbana%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Población Urbana</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Población Mujeres%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Población Mujeres</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Población Hombres%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Población Hombres</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Población infantil (0-14 años)%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Población infantil (0-14 años)</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Población juvenil (15-29 años)%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Población juvenil (15-29 años)</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Población (18 años y más)%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Población (18 años y más)</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Población adulta (30-59 años)%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Población adulta (30-59 años)</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Población adulta mayor (60 y más años)%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Población adulta mayor (60 y más años)</span><span class="st">`</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="respecto-a-no.-de-trabajadores" class="level4">
-<h4 class="anchored" data-anchor-id="respecto-a-no.-de-trabajadores">Respecto a “No.&nbsp;De Trabajadores”</h4>
-<p>Se generan:</p>
+<section id="porcentajes-respecto-a-viviendas-particulares-habitadas" class="level4">
+<h4 class="anchored" data-anchor-id="porcentajes-respecto-a-viviendas-particulares-habitadas">Porcentajes respecto a “Viviendas particulares habitadas”</h4>
+<p>Las columnas de interes son:</p>
 <ul>
-<li><p>Trabajadores en el Sector Primario%</p></li>
-<li><p>Trabajadores en el Sector Secundario%</p></li>
-<li><p>Trabajadores en el Sector Secundario%</p></li>
-<li><p>Trabajadores en el Comercio (Sector Terciario)%</p></li>
-<li><p>Trabajadores en Servicios (Sector Terciario)%</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Refrigerador</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Lavadora</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Horno de microondas</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Automóvil o camioneta</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Motocicleta o motoneta</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Bicicleta que se utilice como medio de transporte</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Algún aparato o dispositivo para oír radio</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Televisor</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Computadora, laptop o tablet</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Línea telefónica fija</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Teléfono celular</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Internet</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Servicio de televisión de paga (Cable o satelital)</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Servicio de películas, música o videos de paga por Internet</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Consola de videojuegos</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Refrigerador</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Lavadora</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Horno de microondas</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Automóvil o camioneta</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Motocicleta o motoneta</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Bicicleta que se utilice como medio de transporte</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Algún aparato o dispositivo para oír radio</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Televisor</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Computadora, laptop o tablet</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Línea telefónica fija</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Teléfono celular</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Internet</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Servicio de televisión de paga (Cable o satelital)</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Servicio de películas, música o videos de paga por Internet</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Consola de videojuegos</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Refrigerador</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Lavadora</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Horno de microondas</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Automóvil o camioneta</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Motocicleta o motoneta</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Bicicleta que se utilice como medio de transporte</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Algún aparato o dispositivo para oír radio</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Televisor</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Computadora, laptop o tablet</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Línea telefónica fija</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Teléfono celular</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Internet</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Servicio de televisión de paga (Cable o satelital)</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Servicio de películas, música o videos de paga por Internet</p></li>
+<li><p>Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Consola de videojuegos</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Copie el codigo de arriba pero es la misma idea</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> <span class="st">`</span><span class="at">Población Mujeres</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">Población adulta mayor (60 y más años)</span><span class="st">`</span>,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span> (.x <span class="sc">/</span> <span class="st">`</span><span class="at">Población total</span><span class="st">`</span>) <span class="sc">*</span> <span class="dv">100</span>,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{.col}%"</span>,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="do">### Queda pendiente esta ultima linea</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="fu">sort</span>(<span class="fu">names</span>(datos)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> dplyr<span class="sc">::</span><span class="fu">any_of</span>(viviendas_particulares),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span> (.x <span class="sc">/</span><span class="st">`</span><span class="at">Viviendas particulares habitadas</span><span class="st">`</span>)<span class="sc">*</span><span class="dv">100</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{.col}%"</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Mismo razonamiento que el anterior para recolocar las columnas.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(viviendas_particulares)) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"dplyr::relocate(`"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste0</span>(viviendas_particulares[i], <span class="st">"%"</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"`, .after = `"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    viviendas_particulares[i],</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"`) |&gt; </span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">""</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Refrigerador%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Refrigerador</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Lavadora%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Lavadora</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Horno de microondas%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Horno de microondas</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Automóvil o camioneta%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Automóvil o camioneta</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Motocicleta o motoneta%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Motocicleta o motoneta</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Bicicleta que se utilice como medio de transporte%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Bicicleta que se utilice como medio de transporte</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Algún aparato o dispositivo para oír radio%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Algún aparato o dispositivo para oír radio</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Televisor%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Televisor</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Computadora, laptop o tablet%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Computadora, laptop o tablet</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Línea telefónica fija%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Línea telefónica fija</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Teléfono celular%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Teléfono celular</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Internet%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Internet</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Servicio de televisión de paga (Cable o satelital)%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Servicio de televisión de paga (Cable o satelital)</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Servicio de películas, música o videos de paga por Internet%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Servicio de películas, música o videos de paga por Internet</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Consola de videojuegos%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación Disponen Consola de videojuegos</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Refrigerador%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Refrigerador</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Lavadora%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Lavadora</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Horno de microondas%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Horno de microondas</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Automóvil o camioneta%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Automóvil o camioneta</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Motocicleta o motoneta%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Motocicleta o motoneta</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Bicicleta que se utilice como medio de transporte%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Bicicleta que se utilice como medio de transporte</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Algún aparato o dispositivo para oír radio%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Algún aparato o dispositivo para oír radio</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Televisor%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Televisor</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Computadora, laptop o tablet%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Computadora, laptop o tablet</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Línea telefónica fija%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Línea telefónica fija</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Teléfono celular%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Teléfono celular</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Internet%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Internet</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Servicio de televisión de paga (Cable o satelital)%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Servicio de televisión de paga (Cable o satelital)</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Servicio de películas, música o videos de paga por Internet%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Servicio de películas, música o videos de paga por Internet</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Consola de videojuegos%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No disponen Consola de videojuegos</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Refrigerador%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Refrigerador</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Lavadora%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Lavadora</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Horno de microondas%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Horno de microondas</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Automóvil o camioneta%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Automóvil o camioneta</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Motocicleta o motoneta%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Motocicleta o motoneta</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Bicicleta que se utilice como medio de transporte%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Bicicleta que se utilice como medio de transporte</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Algún aparato o dispositivo para oír radio%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Algún aparato o dispositivo para oír radio</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Televisor%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Televisor</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Computadora, laptop o tablet%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Computadora, laptop o tablet</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Línea telefónica fija%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Línea telefónica fija</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Teléfono celular%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Teléfono celular</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Internet%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Internet</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Servicio de televisión de paga (Cable o satelital)%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Servicio de televisión de paga (Cable o satelital)</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Servicio de películas, música o videos de paga por Internet%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Servicio de películas, música o videos de paga por Internet</span><span class="st">`</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Consola de videojuegos%</span><span class="st">`</span>, <span class="at">.after =</span> <span class="st">`</span><span class="at">Disponibilidad de bienes y tecnologías de la información y de la comunicación No especificado Consola de videojuegos</span><span class="st">`</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-</section>
-<section id="obtención-de-variables-de-promedio" class="level3">
-<h3 class="anchored" data-anchor-id="obtención-de-variables-de-promedio">Obtención de variables de promedio</h3>
-<p>Se generan:</p>
-<ul>
-<li><p>Grado Promedio de Escolaridad</p></li>
-<li><p>Índice de marginación</p></li>
-</ul>
 </section>
 </section>
 
