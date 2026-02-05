@@ -72,13 +72,76 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="Documentacion_Infografias_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="Documentacion_Infografias_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#descripción-general" id="toc-descripción-general" class="nav-link active" data-scroll-target="#descripción-general">Descripción general</a></li>
+  <li><a href="#nivel-municipal" id="toc-nivel-municipal" class="nav-link" data-scroll-target="#nivel-municipal">Nivel Municipal</a>
+  <ul>
+  <li><a href="#estructuración" id="toc-estructuración" class="nav-link" data-scroll-target="#estructuración">Estructuración</a></li>
+  <li><a href="#base-de-datos" id="toc-base-de-datos" class="nav-link" data-scroll-target="#base-de-datos">Base de datos</a>
+  <ul class="collapse">
+  <li><a href="#porcentajes-respecto-a-poblacion-total" id="toc-porcentajes-respecto-a-poblacion-total" class="nav-link" data-scroll-target="#porcentajes-respecto-a-poblacion-total">Porcentajes respecto a “Poblacion Total”</a></li>
+  <li><a href="#porcentajes-respecto-a-viviendas-particulares-habitadas" id="toc-porcentajes-respecto-a-viviendas-particulares-habitadas" class="nav-link" data-scroll-target="#porcentajes-respecto-a-viviendas-particulares-habitadas">Porcentajes respecto a “Viviendas particulares habitadas”</a></li>
+  <li><a href="#porcentajes-respecto-a-población-de-15-años-y-más" id="toc-porcentajes-respecto-a-población-de-15-años-y-más" class="nav-link" data-scroll-target="#porcentajes-respecto-a-población-de-15-años-y-más">Porcentajes respecto a “Población de 15 años y más”</a></li>
+  <li><a href="#porcentajes-respecto-a-población-económicamente-activa-ocupada-total" id="toc-porcentajes-respecto-a-población-económicamente-activa-ocupada-total" class="nav-link" data-scroll-target="#porcentajes-respecto-a-población-económicamente-activa-ocupada-total">Porcentajes respecto a “Población económicamente activa Ocupada Total”</a></li>
+  <li><a href="#porcentajes-respecto-a-población-total-estatal" id="toc-porcentajes-respecto-a-población-total-estatal" class="nav-link" data-scroll-target="#porcentajes-respecto-a-población-total-estatal">Porcentajes respecto a “Población total Estatal”</a></li>
+  <li><a href="#porcentajes-respecto-a-ingreso-por-remesas" id="toc-porcentajes-respecto-a-ingreso-por-remesas" class="nav-link" data-scroll-target="#porcentajes-respecto-a-ingreso-por-remesas">Porcentajes respecto a “Ingreso por remesas”</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#nivel-regional" id="toc-nivel-regional" class="nav-link" data-scroll-target="#nivel-regional">Nivel Regional</a>
+  <ul>
+  <li><a href="#promedio-de-ocupantes-por-vivienda" id="toc-promedio-de-ocupantes-por-vivienda" class="nav-link" data-scroll-target="#promedio-de-ocupantes-por-vivienda">Promedio de ocupantes por vivienda</a></li>
+  <li><a href="#viviendas-particulares-habitadas" id="toc-viviendas-particulares-habitadas" class="nav-link" data-scroll-target="#viviendas-particulares-habitadas">Viviendas particulares habitadas</a></li>
+  <li><a href="#población-total-detalle-que-vimos-de-coneval" id="toc-población-total-detalle-que-vimos-de-coneval" class="nav-link" data-scroll-target="#población-total-detalle-que-vimos-de-coneval">Población total detalle que vimos de CONEVAL</a></li>
+  <li><a href="#número-de-trabajadores" id="toc-número-de-trabajadores" class="nav-link" data-scroll-target="#número-de-trabajadores">Número de trabajadores</a></li>
+  <li><a href="#realizar-summarise" id="toc-realizar-summarise" class="nav-link" data-scroll-target="#realizar-summarise">Realizar summarise</a></li>
+  <li><a href="#calculo-de-las-variables-provisionales" id="toc-calculo-de-las-variables-provisionales" class="nav-link" data-scroll-target="#calculo-de-las-variables-provisionales">Calculo de las variables provisionales</a></li>
+  </ul></li>
+  <li><a href="#nivel-zona-metropolitana-y-estatal" id="toc-nivel-zona-metropolitana-y-estatal" class="nav-link" data-scroll-target="#nivel-zona-metropolitana-y-estatal">Nivel Zona Metropolitana y Estatal</a></li>
+  <li><a href="#añadir-top-5-de-lenguas-indigenas" id="toc-añadir-top-5-de-lenguas-indigenas" class="nav-link" data-scroll-target="#añadir-top-5-de-lenguas-indigenas">Añadir Top 5 de lenguas indigenas</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -440,6 +503,386 @@ Por ejemplo, a partir de la variable de interés <strong>“Población Rural”<
 <p>De esta manera nos queda en total <strong>698</strong> columnas.</p>
 </section>
 </section>
+</section>
+<section id="nivel-regional" class="level2">
+<h2 class="anchored" data-anchor-id="nivel-regional">Nivel Regional</h2>
+<p>Vamos a utilizar como base el archivo <strong>Infografia_Base_Municipal_Sin_Operaciones_2026_Enero.xlsx,</strong> la idea es generar esa misma base pero agrupados a nivel regional, pero algunas variables existen detalles que debemos hacer operaciones previas.</p>
+<p>Para esto vamos a guardar todas los nombres de las columnas:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>columnas_iniciales <span class="ot">=</span> <span class="fu">names</span>(datos)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Comenzamos con lo mismo, pasando a numerico todas las variables necesarias y renombrando correctamente algunas:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Trabajadores del sector Terciario(Servicios)%</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">Trabajadores del sector Terciario(Servicios)</span><span class="st">`</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">Superficie (km2)</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">Número de áreas protegidas</span><span class="st">`</span>, </span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">`</span><span class="at">Cantidad promedio diaria de residuos sólidos urbanos recolectados</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">Grado promedio de escolaridad</span><span class="st">`</span>,</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>                <span class="st">`</span><span class="at">Población de 15 años y más</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">Índice de marginación 2020</span><span class="st">`</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>                <span class="st">`</span><span class="at">Indice de migracición 2020</span><span class="st">`</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>                <span class="st">`</span><span class="at">Total Hospedajes</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">Popoluca insuficientemente especificado</span><span class="st">`</span>), </span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span> .x <span class="sc">|&gt;</span>  <span class="fu">as.numeric</span>()</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    )  </span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="promedio-de-ocupantes-por-vivienda" class="level4">
+<h4 class="anchored" data-anchor-id="promedio-de-ocupantes-por-vivienda">Promedio de ocupantes por vivienda</h4>
+<p>Se define como</p>
+<p><span class="math display">\[
+\text{Promedio de ocupantes por vivienda} = \frac{\text{Total de población en viviendas particulares}} {\text{Total de viviendas particulares habitadas}}
+\]</span><br>
+</p>
+<p>Entonces</p>
+<p><span class="math display">\[
+\text{Total de población en viviendas particulares}
+=
+\text{Promedio de ocupantes por vivienda}
+\times
+\text{Total de viviendas particulares habitadas}
+\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Promedio de ocupantes por vivienda_total_provisional_viviendas_particulares</span><span class="st">`</span> <span class="ot">=</span> (<span class="st">`</span><span class="at">Promedio de ocupantes por vivienda</span><span class="st">`</span><span class="sc">*</span><span class="st">`</span><span class="at">Viviendas particulares habitadas</span><span class="st">`</span>) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">0</span>),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Promedio de cuartos por vivienda_total_provisional_viviendas_particulares</span><span class="st">`</span> <span class="ot">=</span> (<span class="st">`</span><span class="at">Promedio de cuartos por vivienda</span><span class="st">`</span><span class="sc">*</span><span class="st">`</span><span class="at">Viviendas particulares habitadas</span><span class="st">`</span>) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">0</span>),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="viviendas-particulares-habitadas" class="level4">
+<h4 class="anchored" data-anchor-id="viviendas-particulares-habitadas">Viviendas particulares habitadas</h4>
+<p>En las siguientes variables solo contamos con porcentajes. Para poder calcular estos porcentajes al hacer el <em>summarise</em> a nivel regional, necesitamos conocer el total absoluto. Como sabemos el número de viviendas particulares habitadas, podemos estimar el total absoluto y luego obtener el porcentaje.</p>
+<p>Las variables a las que se les aplicará este procedimiento son:</p>
+<ul>
+<li><p>Porcentaje de viviendas con 2.5 ocupantes o más por cuarto</p></li>
+<li><p>Porcentaje de viviendas con piso de tierra</p></li>
+<li><p>Porcentaje de viviendas sin energía eléctrica</p></li>
+<li><p>Porcentaje de viviendas sin agua entubada</p></li>
+<li><p>Porcentaje de viviendas sin sanitario ni drenaje</p></li>
+<li><p>% Viviendas particulares con hacinamiento</p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> dplyr<span class="sc">::</span><span class="fu">any_of</span>(particulares_habitadas),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span> (.x<span class="sc">/</span><span class="dv">100</span> <span class="sc">*</span> <span class="st">`</span><span class="at">Viviendas particulares habitadas</span><span class="st">`</span>) <span class="sc">|&gt;</span>  <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">0</span>),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{.col}_total_provisional_viviendas_particulares"</span> </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="población-total-detalle-que-vimos-de-coneval" class="level4">
+<h4 class="anchored" data-anchor-id="población-total-detalle-que-vimos-de-coneval">Población total detalle que vimos de CONEVAL</h4>
+<p>En este caso sí contamos con valores absolutos, pero el problema es que CONEVAL maneja un número diferente de población total. No se conoce la razón de esta diferencia. Por eso, a partir de los porcentajes que ellos reportan, hacemos una conversión para obtener los valores absolutos con base en nuestra población total y para despues del summarise obtener los porcentajes respectivos.</p>
+<ul>
+<li><p>Rezago educativo 2020%</p></li>
+<li><p>Carencia por acceso a los servicios de salud 2020%</p></li>
+<li><p>Carencia por acceso a la seguridad social 2020%</p></li>
+<li><p>Carencia por calidad y espacios de la vivienda 2020%</p></li>
+<li><p>Carencia por acceso a los servicios básicos en la vivienda 2020%</p></li>
+<li><p>Carencia por acceso a la alimentación 2020%</p></li>
+<li><p>Pobreza 2020%</p></li>
+<li><p>Pobreza extrema 2020%</p></li>
+<li><p>Pobreza moderada 2020%</p></li>
+<li><p>Vulnerables por carencia social 2020%</p></li>
+<li><p>Vulnerables por ingreso 2020%</p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Eliminamos las del error</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>dplyr<span class="sc">::</span><span class="fu">any_of</span>(</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>      poblacion_total <span class="sc">|&gt;</span>  </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">"2020%"</span>,  <span class="at">replacement =</span> <span class="st">"Personas 2020"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_squish</span>()</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> dplyr<span class="sc">::</span><span class="fu">any_of</span>(poblacion_total),</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span> (.x<span class="sc">/</span><span class="dv">100</span> <span class="sc">*</span> <span class="st">`</span><span class="at">Población total</span><span class="st">`</span>) <span class="sc">|&gt;</span>  <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">0</span>),</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{.col}_total"</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename_with</span>(</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">.cols =</span> <span class="fu">paste0</span>(poblacion_total, <span class="st">"_total"</span>),</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">.fn =</span> <span class="sc">~</span> .x <span class="sc">|&gt;</span>  <span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">"2020%_total"</span>, <span class="at">replacement =</span> <span class="st">"Personas 2020"</span>) <span class="sc">|&gt;</span> stringr<span class="sc">::</span><span class="fu">str_squish</span>()</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="número-de-trabajadores" class="level4">
+<h4 class="anchored" data-anchor-id="número-de-trabajadores">Número de trabajadores</h4>
+<p>Mismo caso tenemos el porcentaje y ocupamos el valor absoluto para las siguientes variables:</p>
+<ul>
+<li><p>Trabajadores del Sector Primario%</p></li>
+<li><p>Trabajadores en el Sector secundario%</p></li>
+<li><p>Trabajadores del sector Terciario(Comercio)%</p></li>
+<li><p>Trabajadores del sector Terciario(Servicios)%</p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> dplyr<span class="sc">::</span><span class="fu">any_of</span>(trabajadores_sector),</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span> (.x<span class="sc">/</span><span class="dv">100</span> <span class="sc">*</span> <span class="st">`</span><span class="at">Numero de Trabajadores</span><span class="st">`</span>) <span class="sc">|&gt;</span>  <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">0</span>),</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{.col}_total_provisional_numero_trabajadores"</span> </span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="realizar-summarise" class="level3">
+<h3 class="anchored" data-anchor-id="realizar-summarise">Realizar summarise</h3>
+<p>Vamos a crear 4 principales grupos en las variables que tenemos:<br>
+</p>
+<ul>
+<li><p><strong>Provisional:</strong></p>
+<ul>
+<li><p>Promedio de ocupantes por vivienda_total_provisional_viviendas_particulares</p></li>
+<li><p>Promedio de cuartos por vivienda_total_provisional_viviendas_particulares</p></li>
+<li><p>Porcentaje de viviendas con 2.5 ocupantes o más por cuarto_total_provisional_viviendas_particulares</p></li>
+<li><p>Porcentaje de viviendas con piso de tierra_total_provisional_viviendas_particulares</p></li>
+<li><p>Porcentaje de viviendas sin energía eléctrica_total_provisional_viviendas_particulares</p></li>
+<li><p>Porcentaje de viviendas sin agua entubada_total_provisional_viviendas_particulares</p></li>
+<li><p>Porcentaje de viviendas sin sanitario ni drenaje_total_provisional_viviendas_particulares</p></li>
+<li><p>% Viviendas particulares con hacinamiento_total_provisional_viviendas_particulares</p></li>
+<li><p>Trabajadores del Sector Primario%_total_provisional_numero_trabajadores</p></li>
+<li><p>Trabajadores en el Sector secundario%_total_provisional_numero_trabajadores</p></li>
+<li><p>Trabajadores del sector Terciario(Comercio)%_total_provisional_numero_trabajadores</p></li>
+<li><p>Trabajadores del sector Terciario(Servicios)%_total_provisional_numero_trabajadores</p></li>
+</ul></li>
+<li><p><strong>Concatenar:</strong></p>
+<ul>
+<li><p>CVE_MUN</p></li>
+<li><p>Municipio</p></li>
+<li><p>Nombres áreas protegida</p></li>
+</ul></li>
+<li><p><strong>Promedios:</strong></p>
+<ul>
+<li><p>Índice de marginación 2020</p></li>
+<li><p>Indice de migracición 2020</p></li>
+<li><p>Grado promedio de escolaridad</p></li>
+</ul></li>
+<li><p><strong>Sumas:</strong></p>
+<ul>
+<li>Son el complemento de las varibles mencionadas arriba.</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>prueba <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(Región) <span class="sc">|&gt;</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> dplyr<span class="sc">::</span><span class="fu">any_of</span>(sumas),</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span> <span class="fu">sum</span>(.x, <span class="at">na.rm =</span> T)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> dplyr<span class="sc">::</span><span class="fu">any_of</span>(provisional),</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span> <span class="fu">sum</span>(.x, <span class="at">na.rm =</span> T)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> dplyr<span class="sc">::</span><span class="fu">any_of</span>(concatenar),</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span> <span class="fu">paste</span>(.x, <span class="at">collapse =</span> <span class="st">", "</span>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> dplyr<span class="sc">::</span><span class="fu">any_of</span>(promedios),</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span> <span class="fu">mean</span>(.x, <span class="at">na.rm =</span> T)</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="calculo-de-las-variables-provisionales" class="level3">
+<h3 class="anchored" data-anchor-id="calculo-de-las-variables-provisionales">Calculo de las variables provisionales</h3>
+<p>No se entrara en detalle esta sección de codigo.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>prueba <span class="ot">=</span> prueba <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Promedio de ocupantes por vivienda</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">Promedio de ocupantes por vivienda_total_provisional_viviendas_particulares</span><span class="st">`</span> <span class="sc">/</span> <span class="st">`</span><span class="at">Viviendas particulares habitadas</span><span class="st">`</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Promedio de cuartos por vivienda</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">Promedio de cuartos por vivienda_total_provisional_viviendas_particulares</span><span class="st">`</span> <span class="sc">/</span> <span class="st">`</span><span class="at">Viviendas particulares habitadas</span><span class="st">`</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span><span class="fu">c</span>(<span class="st">`</span><span class="at">Promedio de ocupantes por vivienda_total_provisional_viviendas_particulares</span><span class="st">`</span>, <span class="st">`</span><span class="at">Promedio de cuartos por vivienda_total_provisional_viviendas_particulares</span><span class="st">`</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(particulares_habitadas, <span class="st">"_total_provisional_viviendas_particulares"</span>)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>prueba <span class="ot">=</span> prueba <span class="sc">|&gt;</span> </span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> <span class="fu">paste0</span>(particulares_habitadas, <span class="st">"_total_provisional_viviendas_particulares"</span>),</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span> (.x <span class="sc">/</span> <span class="st">`</span><span class="at">Viviendas particulares habitadas</span><span class="st">`</span>)<span class="sc">*</span><span class="dv">100</span>, </span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{.col}"</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    ) </span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename_with</span>(</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">.cols =</span> <span class="fu">paste0</span>(particulares_habitadas, <span class="st">"_total_provisional_viviendas_particulares"</span>),</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">.fn =</span> <span class="sc">~</span> .x <span class="sc">|&gt;</span>  <span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">"_total_provisional_viviendas_particulares"</span>, <span class="at">replacement =</span> <span class="st">""</span>) <span class="sc">|&gt;</span>  stringr<span class="sc">::</span><span class="fu">str_squish</span>()</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="do">### Porcentajes pendientes</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>prueba <span class="ot">=</span> prueba <span class="sc">|&gt;</span> </span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> dplyr<span class="sc">::</span><span class="fu">any_of</span>(poblacion_total <span class="sc">|&gt;</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">"2020%"</span>,  <span class="at">replacement =</span> <span class="st">"Personas 2020"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>                              stringr<span class="sc">::</span><span class="fu">str_squish</span>()),</span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span> (.x <span class="sc">/</span> <span class="st">`</span><span class="at">Población total</span><span class="st">`</span>)<span class="sc">*</span><span class="dv">100</span>,</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{.col}%"</span></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">rename_with</span>(</span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">.cols =</span> dplyr<span class="sc">::</span><span class="fu">any_of</span>(poblacion_total <span class="sc">|&gt;</span></span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">"2020%"</span>,  <span class="at">replacement =</span> <span class="st">"Personas 2020%"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>                                stringr<span class="sc">::</span><span class="fu">str_squish</span>()),</span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>        <span class="at">.fn =</span> <span class="sc">~</span> .x <span class="sc">|&gt;</span>  <span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">"Personas 2020%"</span>, <span class="at">replacement =</span> <span class="st">"2020%"</span>) <span class="sc">|&gt;</span> stringr<span class="sc">::</span><span class="fu">str_squish</span>()</span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>prueba <span class="ot">=</span> prueba <span class="sc">|&gt;</span> </span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> dplyr<span class="sc">::</span><span class="fu">any_of</span>(trabajadores_sector <span class="sc">|&gt;</span>  <span class="fu">paste0</span>(<span class="st">"_total_provisional_numero_trabajadores"</span>)),</span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> <span class="sc">~</span>(.x<span class="sc">/</span><span class="st">`</span><span class="at">Numero de Trabajadores</span><span class="st">`</span>)<span class="sc">*</span><span class="dv">100</span>,</span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{.col}"</span></span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename_with</span>(</span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">.cols =</span> dplyr<span class="sc">::</span><span class="fu">any_of</span>(trabajadores_sector <span class="sc">|&gt;</span>  <span class="fu">paste0</span>(<span class="st">"_total_provisional_numero_trabajadores"</span>)),</span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">.fn =</span> <span class="sc">~</span> .x <span class="sc">|&gt;</span>  <span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">"_total_provisional_numero_trabajadores"</span>, <span class="at">replacement =</span> <span class="st">""</span>) <span class="sc">|&gt;</span>  stringr<span class="sc">::</span><span class="fu">str_squish</span>()</span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a>prueba <span class="ot">=</span> prueba <span class="sc">|&gt;</span> </span>
+<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Densidad de población (hab./km2)</span><span class="st">`</span> <span class="ot">=</span> (<span class="st">`</span><span class="at">Población total</span><span class="st">`</span> <span class="sc">/</span> <span class="st">`</span><span class="at">Superficie (km2)</span><span class="st">`</span>),</span>
+<span id="cb18-71"><a href="#cb18-71" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Grado promedio de escolaridad Equivalencia</span><span class="st">`</span> <span class="ot">=</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb18-72"><a href="#cb18-72" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Grado promedio de escolaridad</span><span class="st">`</span> <span class="sc">|&gt;</span>  <span class="fu">floor</span>() <span class="sc">==</span>  <span class="dv">6</span> <span class="sc">~</span> <span class="st">"6to grado de Primaria"</span>,</span>
+<span id="cb18-73"><a href="#cb18-73" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Grado promedio de escolaridad</span><span class="st">`</span> <span class="sc">|&gt;</span>  <span class="fu">floor</span>() <span class="sc">==</span>  <span class="dv">7</span> <span class="sc">~</span> <span class="st">"1er año de Secundaria"</span>,</span>
+<span id="cb18-74"><a href="#cb18-74" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Grado promedio de escolaridad</span><span class="st">`</span> <span class="sc">|&gt;</span>  <span class="fu">floor</span>() <span class="sc">==</span>  <span class="dv">8</span> <span class="sc">~</span> <span class="st">"2do año de Secundaria"</span>,</span>
+<span id="cb18-75"><a href="#cb18-75" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Grado promedio de escolaridad</span><span class="st">`</span> <span class="sc">|&gt;</span>  <span class="fu">floor</span>() <span class="sc">==</span>  <span class="dv">9</span> <span class="sc">~</span> <span class="st">"3er año de Secundaria"</span>,</span>
+<span id="cb18-76"><a href="#cb18-76" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Grado promedio de escolaridad</span><span class="st">`</span> <span class="sc">|&gt;</span>  <span class="fu">floor</span>() <span class="sc">==</span> <span class="dv">10</span> <span class="sc">~</span> <span class="st">"1er año de Preparatoria"</span>,</span>
+<span id="cb18-77"><a href="#cb18-77" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Grado promedio de escolaridad</span><span class="st">`</span> <span class="sc">|&gt;</span>  <span class="fu">floor</span>() <span class="sc">==</span> <span class="dv">11</span> <span class="sc">~</span> <span class="st">"2do año de Preparatoria"</span>,</span>
+<span id="cb18-78"><a href="#cb18-78" aria-hidden="true" tabindex="-1"></a>      T <span class="sc">~</span> <span class="st">`</span><span class="at">Grado promedio de escolaridad</span><span class="st">`</span> <span class="sc">|&gt;</span>  <span class="fu">as.character</span>()</span>
+<span id="cb18-79"><a href="#cb18-79" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb18-80"><a href="#cb18-80" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Grado de marginación 2020</span><span class="st">`</span> <span class="ot">=</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb18-81"><a href="#cb18-81" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Índice de marginación 2020</span><span class="st">`</span> <span class="sc">&gt;=</span> <span class="fl">48.69173</span> <span class="sc">&amp;</span> <span class="st">`</span><span class="at">Índice de marginación 2020</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">48.76876</span> <span class="sc">~</span> <span class="st">"Muy alto"</span>,</span>
+<span id="cb18-82"><a href="#cb18-82" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Índice de marginación 2020</span><span class="st">`</span> <span class="sc">&gt;=</span> <span class="fl">48.76876</span> <span class="sc">&amp;</span> <span class="st">`</span><span class="at">Índice de marginación 2020</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">52.67477</span> <span class="sc">~</span> <span class="st">"Alto"</span>,</span>
+<span id="cb18-83"><a href="#cb18-83" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Índice de marginación 2020</span><span class="st">`</span> <span class="sc">&gt;=</span> <span class="fl">52.67477</span> <span class="sc">&amp;</span> <span class="st">`</span><span class="at">Índice de marginación 2020</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">54.59623</span> <span class="sc">~</span> <span class="st">"Medio"</span>,</span>
+<span id="cb18-84"><a href="#cb18-84" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Índice de marginación 2020</span><span class="st">`</span> <span class="sc">&gt;=</span> <span class="fl">54.59623</span> <span class="sc">&amp;</span> <span class="st">`</span><span class="at">Índice de marginación 2020</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">56.64808</span> <span class="sc">~</span> <span class="st">"Bajo"</span>,</span>
+<span id="cb18-85"><a href="#cb18-85" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Índice de marginación 2020</span><span class="st">`</span> <span class="sc">&gt;=</span> <span class="fl">56.64808</span> <span class="sc">&amp;</span> <span class="st">`</span><span class="at">Índice de marginación 2020</span><span class="st">`</span> <span class="sc">&lt;=</span> <span class="fl">59.92392</span> <span class="sc">~</span> <span class="st">"Muy bajo"</span>,</span>
+<span id="cb18-86"><a href="#cb18-86" aria-hidden="true" tabindex="-1"></a>      T <span class="sc">~</span> <span class="st">"Otro"</span></span>
+<span id="cb18-87"><a href="#cb18-87" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb18-88"><a href="#cb18-88" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Intensidad de migración 2020</span><span class="st">`</span> <span class="ot">=</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb18-89"><a href="#cb18-89" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Indice de migracición 2020</span><span class="st">`</span> <span class="sc">&gt;=</span> <span class="fl">51.16634</span> <span class="sc">&amp;</span> <span class="st">`</span><span class="at">Indice de migracición 2020</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">59.44876</span> <span class="sc">~</span> <span class="st">"Muy alto"</span>,</span>
+<span id="cb18-90"><a href="#cb18-90" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Indice de migracición 2020</span><span class="st">`</span> <span class="sc">&gt;=</span> <span class="fl">59.44876</span> <span class="sc">&amp;</span> <span class="st">`</span><span class="at">Indice de migracición 2020</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">61.42459</span> <span class="sc">~</span> <span class="st">"Alto"</span>,</span>
+<span id="cb18-91"><a href="#cb18-91" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Indice de migracición 2020</span><span class="st">`</span> <span class="sc">&gt;=</span> <span class="fl">61.42459</span> <span class="sc">&amp;</span> <span class="st">`</span><span class="at">Indice de migracición 2020</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">63.10283</span> <span class="sc">~</span> <span class="st">"Medio"</span>,</span>
+<span id="cb18-92"><a href="#cb18-92" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Indice de migracición 2020</span><span class="st">`</span> <span class="sc">&gt;=</span> <span class="fl">63.10283</span> <span class="sc">&amp;</span> <span class="st">`</span><span class="at">Indice de migracición 2020</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">64.37895</span> <span class="sc">~</span> <span class="st">"Bajo"</span>,</span>
+<span id="cb18-93"><a href="#cb18-93" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Indice de migracición 2020</span><span class="st">`</span> <span class="sc">&gt;=</span> <span class="fl">64.37895</span> <span class="sc">&amp;</span> <span class="st">`</span><span class="at">Indice de migracición 2020</span><span class="st">`</span> <span class="sc">&lt;=</span> <span class="fl">65.15841</span> <span class="sc">~</span> <span class="st">"Muy bajo"</span>,</span>
+<span id="cb18-94"><a href="#cb18-94" aria-hidden="true" tabindex="-1"></a>      T <span class="sc">~</span> <span class="st">"Otro"</span></span>
+<span id="cb18-95"><a href="#cb18-95" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-96"><a href="#cb18-96" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-97"><a href="#cb18-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-98"><a href="#cb18-98" aria-hidden="true" tabindex="-1"></a>prueba <span class="ot">=</span> prueba <span class="sc">|&gt;</span> </span>
+<span id="cb18-99"><a href="#cb18-99" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb18-100"><a href="#cb18-100" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Nombres áreas protegida</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">Nombres áreas protegida</span><span class="st">`</span> <span class="sc">|&gt;</span>  </span>
+<span id="cb18-101"><a href="#cb18-101" aria-hidden="true" tabindex="-1"></a>      <span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">"NA,"</span>, <span class="at">replacement =</span> <span class="st">""</span>) <span class="sc">|&gt;</span>  </span>
+<span id="cb18-102"><a href="#cb18-102" aria-hidden="true" tabindex="-1"></a>      <span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">"NA"</span>, <span class="at">replacement =</span> <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb18-103"><a href="#cb18-103" aria-hidden="true" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_squish</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb18-104"><a href="#cb18-104" aria-hidden="true" tabindex="-1"></a>      <span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">",</span><span class="sc">\\</span><span class="st">s*$"</span>, <span class="at">replacement =</span> <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb18-105"><a href="#cb18-105" aria-hidden="true" tabindex="-1"></a>      stringr<span class="sc">::</span><span class="fu">str_squish</span>()</span>
+<span id="cb18-106"><a href="#cb18-106" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Finalmente tendremos que ordenar todas las columnas, considerando el orden de las columnas iniciales de la municipal de esta manera.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>prueba <span class="ot">=</span> prueba <span class="sc">|&gt;</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">any_of</span>(columnas_iniciales)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Finalmente guardamos la base como regional sin operaciones y podemos reutilizar el codigo de <strong>Municipal Porcentajes.R</strong> para obtener las demas variables</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>prueba <span class="sc">|&gt;</span>  openxlsx<span class="sc">::</span><span class="fu">write.xlsx</span>(<span class="st">"Output/Infografia_Base_Regional_Sin_Operaciones_2026_Enero.xlsx"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="nivel-zona-metropolitana-y-estatal" class="level2">
+<h2 class="anchored" data-anchor-id="nivel-zona-metropolitana-y-estatal">Nivel Zona Metropolitana y Estatal</h2>
+<p>Reutilizamos el codigo de <strong>Regional Generar Base.R</strong> para crear la base, unicamente modificamos el <code>group_by()</code> ademas volvemos reutilizar el codigo de <strong>Municipal Porcentajes.R</strong> para crear las demas variables.</p>
+</section>
+<section id="añadir-top-5-de-lenguas-indigenas" class="level2">
+<h2 class="anchored" data-anchor-id="añadir-top-5-de-lenguas-indigenas">Añadir Top 5 de lenguas indigenas</h2>
+<p>Despues de tener todas las bases podemos hacer uso del sigueinte codigo para crear el top 5 de lenguas indigenas en cada base. Es analogo en cada base, lo puedes ver mas detalldo en el codigo de <strong>Añadir Top5 lenguas indigenas.R</strong>, no se entrara en detalle como funciona.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mun <span class="ot">=</span> <span class="st">"Output/Infografia_Base_Municipal_2026_Enero.xlsx"</span> <span class="sc">|&gt;</span>  readxl<span class="sc">::</span><span class="fu">read_excel</span>()</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">=</span> mun <span class="sc">|&gt;</span> </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(CVE_MUN, Kickapoo<span class="sc">:</span><span class="st">`</span><span class="at">Popoluca insuficientemente especificado</span><span class="st">`</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>prueba <span class="ot">=</span> datos <span class="sc">|&gt;</span> </span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> Kickapoo<span class="sc">:</span><span class="st">`</span><span class="at">Popoluca insuficientemente especificado</span><span class="st">`</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"Lengua"</span>,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"Hablantes"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Hablantes <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(CVE_MUN) <span class="sc">|&gt;</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">slice_max</span>(Hablantes, <span class="at">n =</span> <span class="dv">5</span>, <span class="at">with_ties =</span> F) <span class="sc">|&gt;</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>()</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>prueba2 <span class="ot">=</span> prueba <span class="sc">|&gt;</span> </span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(CVE_MUN) <span class="sc">|&gt;</span> </span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">posicion =</span> dplyr<span class="sc">::</span><span class="fu">row_number</span>()</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> posicion,</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> <span class="fu">c</span>(Lengua, Hablantes),</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_prefix =</span> <span class="st">"Indigena"</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span>  </span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>()</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(prueba2) <span class="ot">=</span> <span class="fu">names</span>(prueba2) <span class="sc">|&gt;</span> </span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">"Lengua_Indigena"</span>, <span class="at">replacement =</span> <span class="st">"Lengua Indigena más hablada "</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">"Hablantes_Indigena"</span>, <span class="at">replacement =</span> <span class="st">"Lengua Indigena más hablada conteo "</span>)</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>top5 <span class="ot">=</span> prueba <span class="sc">|&gt;</span> </span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(CVE_MUN) <span class="sc">|&gt;</span> </span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Lenguas Indigenas Top 5</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">paste</span>(Lengua, <span class="at">collapse =</span> <span class="st">", "</span>),</span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Lenguas Indigenas Top 5 Conteo</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sum</span>(Hablantes, <span class="at">na.rm =</span> T)</span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>()</span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a>top5 <span class="ot">=</span> top5 <span class="sc">|&gt;</span> </span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(<span class="at">y =</span> prueba2, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"CVE_MUN"</span> <span class="ot">=</span> <span class="st">"CVE_MUN"</span>))</span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a>mun <span class="ot">=</span> mun <span class="sc">|&gt;</span> </span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(<span class="at">y =</span> top5, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"CVE_MUN"</span> <span class="ot">=</span> <span class="st">"CVE_MUN"</span>))</span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a>mun <span class="sc">|&gt;</span>  openxlsx<span class="sc">::</span><span class="fu">write.xlsx</span>(<span class="st">"Output/Infografia_Base_Municipal_2026_Enero.xlsx"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 
 </main>

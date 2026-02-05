@@ -74,17 +74,17 @@ datos = datos |>
 ### Nota con los valores de CONEVAL de poblacion total, no son los mismos
 
 poblacion_total = c(
-  "Rezago educativo 2020%",                                          
-  "Carencia por acceso a los servicios de salud 2020%",              
-  "Carencia por acceso a la seguridad social 2020%",                 
-  "Carencia por calidad y espacios de la vivienda 2020%",            
-  "Carencia por acceso a los servicios básicos en la vivienda 2020%",
-  "Carencia por acceso a la alimentación 2020%",                     
-  "Pobreza 2020%",                                                   
-  "Pobreza extrema 2020%",                                           
-  "Pobreza moderada 2020%",                                          
-  "Vulnerables por carencia social 2020%",                           
-  "Vulnerables por ingreso 2020%"  
+    "Rezago educativo 2020%",                                          
+    "Carencia por acceso a los servicios de salud 2020%",              
+    "Carencia por acceso a la seguridad social 2020%",                 
+    "Carencia por calidad y espacios de la vivienda 2020%",            
+    "Carencia por acceso a los servicios básicos en la vivienda 2020%",
+    "Carencia por acceso a la alimentación 2020%",                     
+    "Pobreza 2020%",                                                   
+    "Pobreza extrema 2020%",                                           
+    "Pobreza moderada 2020%",                                          
+    "Vulnerables por carencia social 2020%",                           
+    "Vulnerables por ingreso 2020%"  
 )
 
 

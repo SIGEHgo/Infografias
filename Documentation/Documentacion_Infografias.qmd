@@ -1,7 +1,11 @@
 ---
 title: "Infografias"
 author: "Eduardo Alanis Garcia"
-format: html
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-depth: 4 
 editor: visual
 ---
 
@@ -454,9 +458,394 @@ datos = datos |>
 
 #### Promedio de ocupantes por vivienda
 
-Se define como\
-Promedio de ocupantes por vivienda = (Total de poblacion en viviendas particulades)/(Total de viviendas particulares habitadas)
+Se define como
+
+$$
+\text{Promedio de ocupantes por vivienda} = \frac{\text{Total de población en viviendas particulares}} {\text{Total de viviendas particulares habitadas}}
+$$\
 
 Entonces
 
-Total de poblacion en viviendas particulades = (Promedio de ocupantes por vivienda )\*(Total de viviendas particulares habitadas)
+$$
+\text{Total de población en viviendas particulares}
+=
+\text{Promedio de ocupantes por vivienda}
+\times
+\text{Total de viviendas particulares habitadas}
+$$
+
+```{r eval=FALSE}
+datos = datos |> 
+  dplyr::mutate(
+    `Promedio de ocupantes por vivienda_total_provisional_viviendas_particulares` = (`Promedio de ocupantes por vivienda`*`Viviendas particulares habitadas`) |> round(digits = 0),
+    `Promedio de cuartos por vivienda_total_provisional_viviendas_particulares` = (`Promedio de cuartos por vivienda`*`Viviendas particulares habitadas`) |> round(digits = 0),
+  ) 
+```
+
+#### Viviendas particulares habitadas
+
+En las siguientes variables solo contamos con porcentajes. Para poder calcular estos porcentajes al hacer el *summarise* a nivel regional, necesitamos conocer el total absoluto. Como sabemos el número de viviendas particulares habitadas, podemos estimar el total absoluto y luego obtener el porcentaje.
+
+Las variables a las que se les aplicará este procedimiento son:
+
+-   Porcentaje de viviendas con 2.5 ocupantes o más por cuarto
+
+-   Porcentaje de viviendas con piso de tierra
+
+-   Porcentaje de viviendas sin energía eléctrica
+
+-   Porcentaje de viviendas sin agua entubada
+
+-   Porcentaje de viviendas sin sanitario ni drenaje
+
+-   \% Viviendas particulares con hacinamiento
+
+```{r eval=FALSE}
+datos = datos |> 
+  dplyr::mutate(
+    dplyr::across(
+      .cols = dplyr::any_of(particulares_habitadas),
+      .fns = ~ (.x/100 * `Viviendas particulares habitadas`) |>  round(digits = 0),
+      .names = "{.col}_total_provisional_viviendas_particulares" 
+    )
+  )
+```
+
+#### Población total detalle que vimos de CONEVAL
+
+En este caso sí contamos con valores absolutos, pero el problema es que CONEVAL maneja un número diferente de población total. No se conoce la razón de esta diferencia. Por eso, a partir de los porcentajes que ellos reportan, hacemos una conversión para obtener los valores absolutos con base en nuestra población total y para despues del summarise obtener los porcentajes respectivos.
+
+-   Rezago educativo 2020%
+
+-   Carencia por acceso a los servicios de salud 2020%
+
+-   Carencia por acceso a la seguridad social 2020%
+
+-   Carencia por calidad y espacios de la vivienda 2020%
+
+-   Carencia por acceso a los servicios básicos en la vivienda 2020%
+
+-   Carencia por acceso a la alimentación 2020%
+
+-   Pobreza 2020%
+
+-   Pobreza extrema 2020%
+
+-   Pobreza moderada 2020%
+
+-   Vulnerables por carencia social 2020%
+
+-   Vulnerables por ingreso 2020%
+
+```{r eval=FALSE}
+# Eliminamos las del error
+datos = datos |> 
+  dplyr::select(
+    -dplyr::any_of(
+      poblacion_total |>  
+        gsub(pattern = "2020%",  replacement = "Personas 2020") |> 
+        stringr::str_squish()
+    )
+  ) 
+
+
+datos = datos |>
+  dplyr::mutate(
+    dplyr::across(
+      .cols = dplyr::any_of(poblacion_total),
+      .fns = ~ (.x/100 * `Población total`) |>  round(digits = 0),
+      .names = "{.col}_total"
+    )
+  ) |> 
+  dplyr::rename_with(
+    .cols = paste0(poblacion_total, "_total"),
+    .fn = ~ .x |>  gsub(pattern = "2020%_total", replacement = "Personas 2020") |> stringr::str_squish()
+  )
+```
+
+#### Número de trabajadores
+
+Mismo caso tenemos el porcentaje y ocupamos el valor absoluto para las siguientes variables:
+
+-   Trabajadores del Sector Primario%
+
+-   Trabajadores en el Sector secundario%
+
+-   Trabajadores del sector Terciario(Comercio)%
+
+-   Trabajadores del sector Terciario(Servicios)%
+
+```{r eval=FALSE}
+datos = datos |> 
+  dplyr::mutate(
+    dplyr::across(
+      .cols = dplyr::any_of(trabajadores_sector),
+      .fns = ~ (.x/100 * `Numero de Trabajadores`) |>  round(digits = 0),
+      .names = "{.col}_total_provisional_numero_trabajadores" 
+    )
+  ) 
+```
+
+### Realizar summarise
+
+Vamos a crear 4 principales grupos en las variables que tenemos:\
+
+-   **Provisional:**
+
+    -   Promedio de ocupantes por vivienda_total_provisional_viviendas_particulares
+
+    -   Promedio de cuartos por vivienda_total_provisional_viviendas_particulares
+
+    -   Porcentaje de viviendas con 2.5 ocupantes o más por cuarto_total_provisional_viviendas_particulares
+
+    -   Porcentaje de viviendas con piso de tierra_total_provisional_viviendas_particulares
+
+    -   Porcentaje de viviendas sin energía eléctrica_total_provisional_viviendas_particulares
+
+    -   Porcentaje de viviendas sin agua entubada_total_provisional_viviendas_particulares
+
+    -   Porcentaje de viviendas sin sanitario ni drenaje_total_provisional_viviendas_particulares
+
+    -   \% Viviendas particulares con hacinamiento_total_provisional_viviendas_particulares
+
+    -   Trabajadores del Sector Primario%\_total_provisional_numero_trabajadores
+
+    -   Trabajadores en el Sector secundario%\_total_provisional_numero_trabajadores
+
+    -   Trabajadores del sector Terciario(Comercio)%\_total_provisional_numero_trabajadores
+
+    -   Trabajadores del sector Terciario(Servicios)%\_total_provisional_numero_trabajadores
+
+-   **Concatenar:**
+
+    -   CVE_MUN
+
+    -   Municipio
+
+    -   Nombres áreas protegida
+
+-   **Promedios:**
+
+    -   Índice de marginación 2020
+
+    -   Indice de migracición 2020
+
+    -   Grado promedio de escolaridad
+
+-   **Sumas:**
+
+    -   Son el complemento de las varibles mencionadas arriba.
+
+```{r eval=FALSE}
+prueba = datos |> 
+  dplyr::group_by(Región) |> 
+  dplyr::summarise(
+    dplyr::across(
+      .cols = dplyr::any_of(sumas),
+      .fns = ~ sum(.x, na.rm = T)
+    ),
+    dplyr::across(
+      .cols = dplyr::any_of(provisional),
+      .fns = ~ sum(.x, na.rm = T)
+    ),
+    dplyr::across(
+      .cols = dplyr::any_of(concatenar),
+      .fns = ~ paste(.x, collapse = ", ")
+    ),
+    dplyr::across(
+      .cols = dplyr::any_of(promedios),
+      .fns = ~ mean(.x, na.rm = T)
+    )
+  )
+```
+
+### Calculo de las variables provisionales
+
+No se entrara en detalle esta sección de codigo.
+
+```{r eval=FALSE}
+prueba = prueba |> 
+  dplyr::mutate(
+    `Promedio de ocupantes por vivienda` = `Promedio de ocupantes por vivienda_total_provisional_viviendas_particulares` / `Viviendas particulares habitadas`,
+    `Promedio de cuartos por vivienda` = `Promedio de cuartos por vivienda_total_provisional_viviendas_particulares` / `Viviendas particulares habitadas`
+  ) |> 
+  dplyr::select(
+    -c(`Promedio de ocupantes por vivienda_total_provisional_viviendas_particulares`, `Promedio de cuartos por vivienda_total_provisional_viviendas_particulares`)
+    )
+
+
+paste0(particulares_habitadas, "_total_provisional_viviendas_particulares")
+
+
+prueba = prueba |> 
+  dplyr::mutate(
+    dplyr::across(
+      .cols = paste0(particulares_habitadas, "_total_provisional_viviendas_particulares"),
+      .fns = ~ (.x / `Viviendas particulares habitadas`)*100, 
+      .names = "{.col}"
+    ) 
+  ) |> 
+  dplyr::rename_with(
+    .cols = paste0(particulares_habitadas, "_total_provisional_viviendas_particulares"),
+    .fn = ~ .x |>  gsub(pattern = "_total_provisional_viviendas_particulares", replacement = "") |>  stringr::str_squish()
+  )
+
+
+
+### Porcentajes pendientes
+
+
+prueba = prueba |> 
+  dplyr::mutate(
+    dplyr::across(
+      .cols = dplyr::any_of(poblacion_total |>
+                              gsub(pattern = "2020%",  replacement = "Personas 2020") |>
+                              stringr::str_squish()),
+      .fns = ~ (.x / `Población total`)*100,
+      .names = "{.col}%"
+    ) |> 
+      dplyr::rename_with(
+        .cols = dplyr::any_of(poblacion_total |>
+                                gsub(pattern = "2020%",  replacement = "Personas 2020%") |>
+                                stringr::str_squish()),
+        .fn = ~ .x |>  gsub(pattern = "Personas 2020%", replacement = "2020%") |> stringr::str_squish()
+      )
+  )
+
+
+
+
+prueba = prueba |> 
+  dplyr::mutate(
+    dplyr::across(
+      .cols = dplyr::any_of(trabajadores_sector |>  paste0("_total_provisional_numero_trabajadores")),
+      .fns = ~(.x/`Numero de Trabajadores`)*100,
+      .names = "{.col}"
+    )
+  ) |> 
+  dplyr::rename_with(
+    .cols = dplyr::any_of(trabajadores_sector |>  paste0("_total_provisional_numero_trabajadores")),
+    .fn = ~ .x |>  gsub(pattern = "_total_provisional_numero_trabajadores", replacement = "") |>  stringr::str_squish()
+    )
+
+
+
+
+prueba = prueba |> 
+  dplyr::mutate(
+    `Densidad de población (hab./km2)` = (`Población total` / `Superficie (km2)`),
+    `Grado promedio de escolaridad Equivalencia` = dplyr::case_when(
+      `Grado promedio de escolaridad` |>  floor() ==  6 ~ "6to grado de Primaria",
+      `Grado promedio de escolaridad` |>  floor() ==  7 ~ "1er año de Secundaria",
+      `Grado promedio de escolaridad` |>  floor() ==  8 ~ "2do año de Secundaria",
+      `Grado promedio de escolaridad` |>  floor() ==  9 ~ "3er año de Secundaria",
+      `Grado promedio de escolaridad` |>  floor() == 10 ~ "1er año de Preparatoria",
+      `Grado promedio de escolaridad` |>  floor() == 11 ~ "2do año de Preparatoria",
+      T ~ `Grado promedio de escolaridad` |>  as.character()
+    ),
+    `Grado de marginación 2020` = dplyr::case_when(
+      `Índice de marginación 2020` >= 48.69173 & `Índice de marginación 2020` < 48.76876 ~ "Muy alto",
+      `Índice de marginación 2020` >= 48.76876 & `Índice de marginación 2020` < 52.67477 ~ "Alto",
+      `Índice de marginación 2020` >= 52.67477 & `Índice de marginación 2020` < 54.59623 ~ "Medio",
+      `Índice de marginación 2020` >= 54.59623 & `Índice de marginación 2020` < 56.64808 ~ "Bajo",
+      `Índice de marginación 2020` >= 56.64808 & `Índice de marginación 2020` <= 59.92392 ~ "Muy bajo",
+      T ~ "Otro"
+    ),
+    `Intensidad de migración 2020` = dplyr::case_when(
+      `Indice de migracición 2020` >= 51.16634 & `Indice de migracición 2020` < 59.44876 ~ "Muy alto",
+      `Indice de migracición 2020` >= 59.44876 & `Indice de migracición 2020` < 61.42459 ~ "Alto",
+      `Indice de migracición 2020` >= 61.42459 & `Indice de migracición 2020` < 63.10283 ~ "Medio",
+      `Indice de migracición 2020` >= 63.10283 & `Indice de migracición 2020` < 64.37895 ~ "Bajo",
+      `Indice de migracición 2020` >= 64.37895 & `Indice de migracición 2020` <= 65.15841 ~ "Muy bajo",
+      T ~ "Otro"
+    )
+  )
+
+prueba = prueba |> 
+  dplyr::mutate(
+    `Nombres áreas protegida` = `Nombres áreas protegida` |>  
+      gsub(pattern = "NA,", replacement = "") |>  
+      gsub(pattern = "NA", replacement = "") |> 
+      stringr::str_squish() |> 
+      gsub(pattern = ",\\s*$", replacement = "") |> 
+      stringr::str_squish()
+  )
+```
+
+Finalmente tendremos que ordenar todas las columnas, considerando el orden de las columnas iniciales de la municipal de esta manera.
+
+```{r eval=FALSE}
+prueba = prueba |> 
+  dplyr::select(
+    dplyr::any_of(columnas_iniciales)
+  ) 
+```
+
+Finalmente guardamos la base como regional sin operaciones y podemos reutilizar el codigo de **Municipal Porcentajes.R** para obtener las demas variables
+
+```{r eval=FALSE}
+prueba |>  openxlsx::write.xlsx("Output/Infografia_Base_Regional_Sin_Operaciones_2026_Enero.xlsx")
+```
+
+## Nivel Zona Metropolitana y Estatal
+
+Reutilizamos el codigo de **Regional Generar Base.R** para crear la base, unicamente modificamos el `group_by()` ademas volvemos reutilizar el codigo de **Municipal Porcentajes.R** para crear las demas variables.
+
+## Añadir Top 5 de lenguas indigenas
+
+Despues de tener todas las bases podemos hacer uso del sigueinte codigo para crear el top 5 de lenguas indigenas en cada base. Es analogo en cada base, lo puedes ver mas detalldo en el codigo de **Añadir Top5 lenguas indigenas.R**, no se entrara en detalle como funciona.
+
+```{r eval=FALSE}
+mun = "Output/Infografia_Base_Municipal_2026_Enero.xlsx" |>  readxl::read_excel()
+
+datos = mun |> 
+  dplyr::select(CVE_MUN, Kickapoo:`Popoluca insuficientemente especificado`)
+
+
+prueba = datos |> 
+  tidyr::pivot_longer(
+    cols = Kickapoo:`Popoluca insuficientemente especificado`,
+    names_to = "Lengua",
+    values_to = "Hablantes") |> 
+  dplyr::filter(Hablantes > 0) |>
+  dplyr::group_by(CVE_MUN) |>
+  dplyr::slice_max(Hablantes, n = 5, with_ties = F) |>
+  dplyr::ungroup()
+
+
+
+prueba2 = prueba |> 
+  dplyr::group_by(CVE_MUN) |> 
+  dplyr::mutate(
+    posicion = dplyr::row_number()
+  ) |> 
+  tidyr::pivot_wider(
+    names_from = posicion,
+    values_from = c(Lengua, Hablantes),
+    names_prefix = "Indigena"
+  ) |>  
+  dplyr::ungroup()
+
+names(prueba2) = names(prueba2) |> 
+  gsub(pattern = "Lengua_Indigena", replacement = "Lengua Indigena más hablada ") |> 
+  gsub(pattern = "Hablantes_Indigena", replacement = "Lengua Indigena más hablada conteo ")
+
+
+top5 = prueba |> 
+  dplyr::group_by(CVE_MUN) |> 
+  dplyr::summarise(
+    `Lenguas Indigenas Top 5` = paste(Lengua, collapse = ", "),
+    `Lenguas Indigenas Top 5 Conteo` = sum(Hablantes, na.rm = T)
+  ) |> 
+  dplyr::ungroup()
+
+
+top5 = top5 |> 
+  dplyr::left_join(y = prueba2, by = c("CVE_MUN" = "CVE_MUN"))
+
+mun = mun |> 
+  dplyr::left_join(y = top5, by = c("CVE_MUN" = "CVE_MUN"))
+
+
+mun |>  openxlsx::write.xlsx("Output/Infografia_Base_Municipal_2026_Enero.xlsx")
+```
